@@ -46,32 +46,32 @@ const galleryItems = [
 }
 
 .gallery-header h2 {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 2px;
 }
 
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
+  gap: 1px;
+  background: rgba(240, 240, 250, 0.06);
 }
 
 .gallery-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
+  background: var(--bg-primary);
   overflow: hidden;
   cursor: pointer;
-  transition: border-color 150ms;
+  transition: background 200ms;
 }
 
 .gallery-card:hover {
-  border-color: var(--border-active);
+  background: rgba(240, 240, 250, 0.02);
 }
 
 .card-preview {
   height: 180px;
-  background: var(--bg-tertiary);
+  background: rgba(240, 240, 250, 0.04);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -80,20 +80,23 @@ const galleryItems = [
 .card-placeholder {
   font-size: 48px;
   color: var(--text-muted);
-  opacity: 0.3;
+  opacity: 0.2;
 }
 
 .card-info {
-  padding: 16px;
+  padding: 20px;
 }
 
 .card-info h4 {
-  font-size: 14px;
-  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
 }
 
 .card-info p {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
+  letter-spacing: 0.5px;
 }
 </style>

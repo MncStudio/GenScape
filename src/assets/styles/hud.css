@@ -1,19 +1,11 @@
-/* HUD 风格面板 */
+/* HUD 面板 — SpaceX: 纯黑 + 极细边框 */
 .hud-panel {
-  background: rgba(17, 24, 39, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(240, 240, 250, 0.08);
+  border-radius: var(--radius-sm);
   overflow: hidden;
-}
-
-.hud-panel::before {
-  content: '';
-  display: block;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
-  opacity: 0.6;
 }
 
 .hud-panel__header {
@@ -21,11 +13,11 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-sm) var(--spacing-md);
-  border-bottom: 1px solid var(--border-default);
+  border-bottom: 1px solid rgba(240, 240, 250, 0.06);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.17px;
   color: var(--text-secondary);
 }
 
@@ -33,82 +25,54 @@
   padding: var(--spacing-md);
 }
 
-/* 按钮 */
+/* 按钮 — Ghost 风格 */
 .hud-btn {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-sm) 18px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 700;
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-lg);
   cursor: pointer;
-  transition: all 150ms ease-out;
+  text-transform: uppercase;
+  letter-spacing: 1.17px;
+  transition: background 200ms ease;
 }
 
 .hud-btn--primary {
-  background: var(--accent-primary);
-  color: #000;
+  background: rgba(240, 240, 250, 0.1);
+  color: var(--text-primary);
+  border: 1px solid rgba(240, 240, 250, 0.35);
 }
 
 .hud-btn--primary:hover {
-  box-shadow: var(--glow-strong);
-  transform: scale(1.02);
+  background: rgba(240, 240, 250, 0.2);
 }
 
 .hud-btn--secondary {
   background: transparent;
-  border: 1px solid var(--border-default);
-  color: var(--text-primary);
+  border: 1px solid rgba(240, 240, 250, 0.08);
+  color: var(--text-secondary);
 }
 
 .hud-btn--secondary:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--border-active);
+  border-color: rgba(240, 240, 250, 0.35);
+  color: var(--text-primary);
 }
 
 .hud-btn--ghost {
   background: transparent;
   color: var(--text-secondary);
+  border-radius: var(--radius-sm);
 }
 
 .hud-btn--ghost:hover {
   color: var(--text-primary);
-  text-decoration: underline;
 }
 
-/* 视口角标 */
-.viewport-corners {
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-}
-
-.viewport-corners::before,
-.viewport-corners::after {
-  content: '';
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  border-color: var(--accent-primary);
-  border-style: solid;
-  opacity: 0.3;
-}
-
-.viewport-corners::before {
-  top: 8px;
-  left: 8px;
-  border-width: 1px 0 0 1px;
-}
-
-.viewport-corners::after {
-  top: 8px;
-  right: 8px;
-  border-width: 1px 1px 0 0;
-}
-
-/* 加载动画 - 环形扫描 */
+/* 加载动画 */
 .hud-loader {
   display: flex;
   flex-direction: column;
@@ -119,8 +83,8 @@
 .hud-loader__ring {
   width: 48px;
   height: 48px;
-  border: 2px solid var(--border-default);
-  border-top-color: var(--accent-primary);
+  border: 2px solid rgba(240, 240, 250, 0.08);
+  border-top-color: rgba(240, 240, 250, 0.5);
   border-radius: 50%;
   animation: hud-spin 1s linear infinite;
 }
@@ -128,6 +92,8 @@
 .hud-loader__text {
   font-family: var(--font-mono);
   font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   color: var(--text-secondary);
   animation: hud-pulse 1.5s ease-in-out infinite;
 }
@@ -144,39 +110,21 @@
 /* 状态指示器 */
 .status-dot {
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   margin-right: 6px;
 }
 
 .status-dot--online {
   background: var(--accent-success);
-  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
 }
 
 .status-dot--generating {
   background: var(--accent-warning);
-  box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
   animation: hud-pulse 1s ease-in-out infinite;
 }
 
 .status-dot--error {
   background: var(--accent-danger);
-  box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
-}
-
-/* 扫描线效果 */
-.scanline {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.03) 0px,
-    rgba(0, 0, 0, 0.03) 1px,
-    transparent 1px,
-    transparent 2px
-  );
-  pointer-events: none;
-  opacity: 0.5;
 }

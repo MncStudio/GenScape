@@ -1,31 +1,31 @@
 :root {
-  /* 背景 */
-  --bg-primary: #0a0e17;
-  --bg-secondary: #111827;
-  --bg-tertiary: #1a2235;
-  --bg-elevated: #1e293b;
+  /* 背景 — SpaceX 纯黑体系 */
+  --bg-primary: #000000;
+  --bg-secondary: rgba(0, 0, 0, 0.8);
+  --bg-tertiary: rgba(240, 240, 250, 0.04);
+  --bg-elevated: rgba(240, 240, 250, 0.07);
 
-  /* 品牌色 */
-  --accent-primary: #00d4ff;
-  --accent-secondary: #6366f1;
+  /* 品牌色 — 极简黑白 */
+  --accent-primary: #f0f0fa;
+  --accent-secondary: rgba(240, 240, 250, 0.7);
   --accent-success: #10b981;
   --accent-warning: #f59e0b;
   --accent-danger: #ef4444;
 
-  /* 文字 */
-  --text-primary: #e2e8f0;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-accent: #00d4ff;
+  /* 文字 — Spectral White */
+  --text-primary: #f0f0fa;
+  --text-secondary: rgba(240, 240, 250, 0.7);
+  --text-muted: rgba(240, 240, 250, 0.4);
+  --text-accent: #f0f0fa;
 
-  /* 边框 */
-  --border-default: #1e293b;
-  --border-active: #00d4ff;
-  --border-subtle: rgba(0, 212, 255, 0.15);
+  /* 边框 — Ghost */
+  --border-default: rgba(240, 240, 250, 0.08);
+  --border-active: rgba(240, 240, 250, 0.35);
+  --border-subtle: rgba(240, 240, 250, 0.15);
 
-  /* 特效 */
-  --glow-primary: 0 0 15px rgba(0, 212, 255, 0.3);
-  --glow-strong: 0 0 30px rgba(0, 212, 255, 0.5);
+  /* 特效 — 零阴影 */
+  --glow-primary: none;
+  --glow-strong: none;
 
   /* 间距 */
   --spacing-xs: 4px;
@@ -36,10 +36,24 @@
 
   /* 圆角 */
   --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --radius-md: 4px;
+  --radius-lg: 32px;
 
   /* 字体 */
   --font-sans: 'Inter', 'HarmonyOS Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+
+  /* === Element Plus 暗色覆盖 === */
+  --el-bg-color: #000000;
+  --el-bg-color-overlay: rgba(10, 10, 10, 0.95);
+  --el-text-color-primary: #f0f0fa;
+  --el-text-color-regular: rgba(240, 240, 250, 0.7);
+  --el-text-color-secondary: rgba(240, 240, 250, 0.4);
+  --el-border-color: rgba(240, 240, 250, 0.08);
+  --el-border-color-light: rgba(240, 240, 250, 0.08);
+  --el-color-primary: #f0f0fa;
+  --el-color-primary-light-3: rgba(240, 240, 250, 0.3);
+  --el-fill-color-blank: #000000;
+  --el-fill-color: rgba(240, 240, 250, 0.04);
+  --el-fill-color-light: rgba(240, 240, 250, 0.07);
 }

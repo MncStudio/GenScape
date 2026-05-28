@@ -15,6 +15,8 @@ html, body {
   font-family: var(--font-sans);
   font-size: 14px;
   line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -25,8 +27,8 @@ html, body {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -34,33 +36,34 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border-default);
-  border-radius: 3px;
+  background: rgba(240, 240, 250, 0.12);
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
+  background: rgba(240, 240, 250, 0.25);
 }
 
 ::selection {
-  background: rgba(0, 212, 255, 0.3);
+  background: rgba(240, 240, 250, 0.15);
   color: var(--text-primary);
 }
 
 a {
-  color: var(--accent-primary);
+  color: var(--text-primary);
   text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+  color: var(--text-primary);
+  opacity: 0.8;
 }
 
 input, textarea, select {
   font-family: inherit;
   font-size: inherit;
-  color: inherit;
-  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  background: rgba(240, 240, 250, 0.05);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
   padding: var(--spacing-sm) var(--spacing-md);
@@ -70,5 +73,4 @@ input, textarea, select {
 
 input:focus, textarea:focus {
   border-color: var(--border-active);
-  box-shadow: var(--glow-primary);
 }

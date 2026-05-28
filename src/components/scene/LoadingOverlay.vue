@@ -44,8 +44,8 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   gap: 16px;
-  background: rgba(10, 14, 23, 0.85);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(16px);
   z-index: 10;
 }
 

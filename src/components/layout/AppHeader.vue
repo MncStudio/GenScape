@@ -2,8 +2,7 @@
   <header class="app-header">
     <div class="header-left">
       <router-link to="/" class="logo">
-        <span class="logo-icon">&#9670;</span>
-        <span class="logo-text">GenScape</span>
+        <span class="logo-text">GENSCAPE</span>
         <span class="logo-version">v0.1</span>
       </router-link>
     </div>
@@ -14,7 +13,7 @@
 
     <div class="header-right">
       <el-button
-        :icon="uiStore.sidebarCollapsed ? 'Expand' : 'Fold'"
+        :icon="uiStore.sidebarCollapsed ? Expand : Fold"
         @click="uiStore.toggleSidebar()"
         class="header-btn"
         text
@@ -33,6 +32,7 @@
 </template>
 
 <script setup lang="ts">
+import { Expand, Fold, Setting } from '@element-plus/icons-vue'
 import { useUIStore } from '@/store/modules/ui.store'
 import PromptPanel from '@/components/panels/PromptPanel.vue'
 
@@ -45,9 +45,11 @@ const uiStore = useUIStore()
   align-items: center;
   justify-content: space-between;
   height: 52px;
-  padding: 0 16px;
+  padding: 0 20px;
   background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border-default);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(240, 240, 250, 0.06);
   z-index: 100;
   flex-shrink: 0;
 }
@@ -61,28 +63,21 @@ const uiStore = useUIStore()
 .logo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   text-decoration: none;
   color: var(--text-primary);
 }
 
-.logo-icon {
-  color: var(--accent-primary);
-  font-size: 18px;
-}
-
 .logo-text {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: -0.5px;
+  letter-spacing: 2px;
 }
 
 .logo-version {
   font-size: 10px;
   color: var(--text-muted);
-  background: var(--bg-tertiary);
-  padding: 2px 6px;
-  border-radius: var(--radius-sm);
+  letter-spacing: 1px;
 }
 
 .header-center {
@@ -94,15 +89,18 @@ const uiStore = useUIStore()
 .header-right {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
   min-width: 200px;
   justify-content: flex-end;
 }
 
 .header-btn {
-  color: var(--text-primary) !important;
+  color: var(--text-secondary) !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 12px;
 }
 .header-btn:hover {
-  color: var(--accent-primary) !important;
+  color: var(--text-primary) !important;
 }
 </style>

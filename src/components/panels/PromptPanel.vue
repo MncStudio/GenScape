@@ -85,7 +85,6 @@ async function handleGenerate() {
 
 .prompt-input :deep(.el-textarea__inner:focus) {
   border-color: var(--border-active);
-  box-shadow: var(--glow-primary);
 }
 
 .prompt-input :deep(.el-textarea__inner::placeholder) {
@@ -93,11 +92,17 @@ async function handleGenerate() {
 }
 
 .generate-btn {
-  background: var(--accent-primary) !important;
-  border-color: var(--accent-primary) !important;
-  color: #000 !important;
-  font-weight: 600;
+  background: rgba(240, 240, 250, 0.1) !important;
+  border: 1px solid rgba(240, 240, 250, 0.35) !important;
+  color: var(--text-primary) !important;
+  font-weight: 700;
+  letter-spacing: 1.17px;
   white-space: nowrap;
+  border-radius: 32px !important;
+}
+
+.generate-btn:hover {
+  background: rgba(240, 240, 250, 0.2) !important;
 }
 
 .preset-prompts {
@@ -109,14 +114,14 @@ async function handleGenerate() {
 
 .preset-tag {
   cursor: pointer;
-  background: var(--bg-tertiary);
-  border-color: var(--border-default);
+  background: transparent;
+  border: 1px solid rgba(240, 240, 250, 0.1);
   color: var(--text-secondary);
   font-size: 11px;
 }
 
 .preset-tag:hover {
-  border-color: var(--border-active);
-  color: var(--text-accent);
+  border-color: rgba(240, 240, 250, 0.35);
+  color: var(--text-primary);
 }
 </style>

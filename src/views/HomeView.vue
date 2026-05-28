@@ -1,17 +1,14 @@
 <template>
   <div class="home">
     <div class="hero">
-      <div class="hero-bg" />
       <div class="hero-content">
-        <h1 class="hero-title">
-          <span class="hero-accent">GenScape</span>
-        </h1>
+        <h1 class="hero-title">GENSCAPE</h1>
         <p class="hero-subtitle">AI 驱动的数字孪生场景生成平台</p>
         <p class="hero-desc">输入自然语言，秒级生成可交互的 Three.js 工业 3D 场景</p>
 
         <div class="hero-actions">
           <router-link to="/editor">
-            <el-button type="primary" size="large" class="cta-btn">
+            <el-button size="large" class="cta-btn">
               开始创建场景
               <el-icon><ArrowRight /></el-icon>
             </el-button>
@@ -54,10 +51,10 @@ const features = [
   width: 100%;
   height: 100%;
   overflow-y: auto;
+  background: var(--bg-primary);
 }
 
 .hero {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,64 +62,71 @@ const features = [
   padding: 48px 24px;
 }
 
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 50%, rgba(0, 212, 255, 0.06) 0%, transparent 70%),
-              radial-gradient(ellipse at 80% 20%, rgba(99, 102, 241, 0.04) 0%, transparent 50%);
-}
-
 .hero-content {
-  position: relative;
   text-align: center;
   max-width: 720px;
 }
 
 .hero-title {
-  font-size: 56px;
+  font-size: 64px;
   font-weight: 700;
-  letter-spacing: -2px;
-  margin-bottom: 16px;
-}
-
-.hero-accent {
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+  color: var(--text-primary);
 }
 
 .hero-subtitle {
-  font-size: 20px;
+  font-size: 16px;
   color: var(--text-secondary);
   margin-bottom: 8px;
+  letter-spacing: 1px;
 }
 
 .hero-desc {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--text-muted);
-  margin-bottom: 36px;
+  margin-bottom: 40px;
+  letter-spacing: 0.5px;
 }
 
 .hero-actions {
   display: flex;
   gap: 12px;
   justify-content: center;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
 }
 
 .cta-btn {
-  background: var(--accent-primary) !important;
-  border-color: var(--accent-primary) !important;
-  color: #000 !important;
-  font-weight: 600;
-  padding: 12px 28px !important;
+  background: rgba(240, 240, 250, 0.1) !important;
+  border: 1px solid rgba(240, 240, 250, 0.35) !important;
+  color: var(--text-primary) !important;
+  font-weight: 700;
+  letter-spacing: 1.17px;
+  padding: 14px 28px !important;
+  border-radius: 32px !important;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.cta-btn:hover {
+  background: rgba(240, 240, 250, 0.2) !important;
 }
 
 .cta-btn--secondary {
   background: transparent !important;
-  border-color: var(--border-default) !important;
+  border: 1px solid rgba(240, 240, 250, 0.15) !important;
   color: var(--text-secondary) !important;
+  font-weight: 700;
+  letter-spacing: 1.17px;
+  padding: 14px 28px !important;
+  border-radius: 32px !important;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.cta-btn--secondary:hover {
+  border-color: rgba(240, 240, 250, 0.35) !important;
+  color: var(--text-primary) !important;
 }
 
 .hero-example {
@@ -130,58 +134,63 @@ const features = [
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
+  background: rgba(240, 240, 250, 0.04);
+  border: 1px solid rgba(240, 240, 250, 0.08);
+  border-radius: var(--radius-sm);
 }
 
 .example-label {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
   white-space: nowrap;
+  letter-spacing: 0.5px;
 }
 
 .hero-example code {
   font-family: var(--font-mono);
   font-size: 13px;
-  color: var(--accent-primary);
+  color: var(--text-secondary);
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 .features {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 1px;
   max-width: 1080px;
   margin: 0 auto;
   padding: 64px 24px 96px;
 }
 
 .feature-card {
-  padding: 24px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
+  padding: 32px 24px;
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(240, 240, 250, 0.06);
 }
 
 .feature-card:hover {
-  border-color: var(--border-active);
+  background: rgba(240, 240, 250, 0.02);
 }
 
 .feature-icon {
-  color: var(--accent-primary);
-  margin-bottom: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
 }
 
 .feature-card h3 {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: 1.17px;
 }
 
 .feature-card p {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-secondary);
   line-height: 1.6;
+  letter-spacing: 0.5px;
 }
 
 @media (max-width: 768px) {

@@ -110,8 +110,8 @@ const activePanelContent = computed(() => {
 }
 
 .nav-item.active {
-  background: rgba(0, 212, 255, 0.1);
-  color: var(--accent-primary);
+  background: rgba(240, 240, 250, 0.08);
+  color: var(--text-primary);
 }
 
 .nav-label {

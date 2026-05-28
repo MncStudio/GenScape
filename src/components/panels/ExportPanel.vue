@@ -199,23 +199,23 @@ function handleExport(format: string) {
 }
 
 .stash-btn:hover:not(:disabled) {
-  border-color: var(--border-active);
+  border-color: rgba(240, 240, 250, 0.35);
   color: var(--text-primary);
 }
 
 .stash-btn.save:hover:not(:disabled) {
-  border-color: var(--accent-primary);
-  color: var(--accent-primary);
+  border-color: rgba(240, 240, 250, 0.35);
+  color: var(--text-primary);
 }
 
 .stash-btn.load:hover:not(:disabled) {
-  border-color: #67c23a;
-  color: #67c23a;
+  border-color: rgba(240, 240, 250, 0.35);
+  color: var(--text-primary);
 }
 
 .stash-btn.clear:hover:not(:disabled) {
-  border-color: #f56c6c;
-  color: #f56c6c;
+  border-color: var(--accent-danger);
+  color: var(--accent-danger);
 }
 
 .draft-info {

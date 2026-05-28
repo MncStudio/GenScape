@@ -1,8 +1,5 @@
 <template>
   <div ref="containerRef" class="scene-viewport">
-    <div class="viewport-corners" />
-    <div class="scanline" />
-
     <LoadingOverlay v-if="sceneStore.status === 'generating'" />
 
     <div class="viewport-info">

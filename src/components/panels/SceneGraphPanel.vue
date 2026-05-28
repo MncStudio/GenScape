@@ -636,8 +636,8 @@ function posStr(pos: { x: number; y: number; z: number }): string {
 
 .list-item:hover { background: var(--bg-tertiary); }
 .list-item.selected {
-  background: rgba(0, 212, 255, 0.08);
-  border-color: rgba(0, 212, 255, 0.3);
+  background: rgba(240, 240, 250, 0.06);
+  border-color: rgba(240, 240, 250, 0.2);
   color: var(--text-primary);
 }
 

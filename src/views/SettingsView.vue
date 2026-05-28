@@ -63,23 +63,25 @@ const maskedKey = computed(() => {
 }
 
 .settings-header h2 {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 2px;
 }
 
 .settings-section {
   max-width: 640px;
   margin-bottom: 32px;
-  padding: 20px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
+  padding: 24px;
+  background: transparent;
+  border: 1px solid rgba(240, 240, 250, 0.08);
+  border-radius: var(--radius-sm);
 }
 
 .settings-section h3 {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   margin-bottom: 16px;
+  letter-spacing: 1.17px;
   color: var(--text-primary);
 }
 </style>
