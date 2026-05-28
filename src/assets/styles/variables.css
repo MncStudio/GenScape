@@ -1,0 +1,45 @@
+:root {
+  /* 背景 */
+  --bg-primary: #0a0e17;
+  --bg-secondary: #111827;
+  --bg-tertiary: #1a2235;
+  --bg-elevated: #1e293b;
+
+  /* 品牌色 */
+  --accent-primary: #00d4ff;
+  --accent-secondary: #6366f1;
+  --accent-success: #10b981;
+  --accent-warning: #f59e0b;
+  --accent-danger: #ef4444;
+
+  /* 文字 */
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-accent: #00d4ff;
+
+  /* 边框 */
+  --border-default: #1e293b;
+  --border-active: #00d4ff;
+  --border-subtle: rgba(0, 212, 255, 0.15);
+
+  /* 特效 */
+  --glow-primary: 0 0 15px rgba(0, 212, 255, 0.3);
+  --glow-strong: 0 0 30px rgba(0, 212, 255, 0.5);
+
+  /* 间距 */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* 圆角 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* 字体 */
+  --font-sans: 'Inter', 'HarmonyOS Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}

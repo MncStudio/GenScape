@@ -1,0 +1,125 @@
+{
+  "version": "1.0.0",
+  "metadata": {
+    "name": "化工厂夜景",
+    "prompt": "一个化工厂夜景，有储罐、管道、蓝色灯光、流动粒子效果",
+    "generatedAt": "2026-05-28T12:00:00Z",
+    "generator": "deepseek-chat"
+  },
+  "scene": {
+    "background": { "type": "color", "value": "#0a0a1a" },
+    "fog": { "type": "exp2", "color": "#112244", "density": 0.0006 },
+    "ground": { "type": "plane", "size": 80, "color": "#2a2a2a" }
+  },
+  "objects": [
+    {
+      "id": "tank_01",
+      "type": "storage_tank",
+      "position": { "x": -10, "y": 0, "z": 5 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "params": { "radius": 2.0, "height": 8.0, "roofType": "dome" },
+      "material": { "color": "#c0c0c0", "metalness": 0.85, "roughness": 0.25 },
+      "label": { "text": "T-101 原料储罐", "position": "top" }
+    },
+    {
+      "id": "tank_02",
+      "type": "storage_tank",
+      "position": { "x": -4, "y": 0, "z": 5 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "params": { "radius": 2.0, "height": 8.0, "roofType": "dome" },
+      "material": { "color": "#b8b8b8", "metalness": 0.85, "roughness": 0.25 },
+      "label": { "text": "T-102 中间储罐", "position": "top" }
+    },
+    {
+      "id": "tank_03",
+      "type": "storage_tank",
+      "position": { "x": 2, "y": 0, "z": 5 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "params": { "radius": 2.0, "height": 8.0, "roofType": "dome" },
+      "material": { "color": "#c0c0c0", "metalness": 0.85, "roughness": 0.25 },
+      "label": { "text": "T-103 成品储罐", "position": "top" }
+    },
+    {
+      "id": "tank_04",
+      "type": "storage_tank",
+      "position": { "x": -10, "y": 0, "z": -5 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "params": { "radius": 2.5, "height": 10.0, "roofType": "dome" },
+      "material": { "color": "#a0a0a0", "metalness": 0.85, "roughness": 0.25 },
+      "label": { "text": "T-104 大型储罐", "position": "top" }
+    },
+    {
+      "id": "tank_05",
+      "type": "storage_tank",
+      "position": { "x": -4, "y": 0, "z": -5 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "params": { "radius": 2.5, "height": 10.0, "roofType": "dome" },
+      "material": { "color": "#a0a0a0", "metalness": 0.85, "roughness": 0.25 },
+      "label": { "text": "T-105 大型储罐", "position": "top" }
+    },
+    {
+      "id": "pipe_main",
+      "type": "pipe_segment",
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "params": {
+        "radius": 0.15,
+        "segments": 64,
+        "hasValve": true,
+        "path": [
+          { "x": -10, "y": 3, "z": 5 },
+          { "x": -7, "y": 3.2, "z": 2 },
+          { "x": -4, "y": 3, "z": 5 },
+          { "x": -1, "y": 3.2, "z": 2 },
+          { "x": 2, "y": 3, "z": 5 },
+          { "x": 5, "y": 3.2, "z": 0 },
+          { "x": 2, "y": 3, "z": -5 },
+          { "x": -1, "y": 3.2, "z": -2 },
+          { "x": -4, "y": 3, "z": -5 },
+          { "x": -7, "y": 3.2, "z": -2 },
+          { "x": -10, "y": 3, "z": -5 }
+        ]
+      },
+      "material": { "color": "#8899aa", "metalness": 0.7, "roughness": 0.4 }
+    },
+    {
+      "id": "platform_01",
+      "type": "platform",
+      "position": { "x": -4, "y": 0, "z": 0 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "params": { "width": 14, "depth": 5, "height": 3.0, "hasRailing": true },
+      "material": { "color": "#555555", "metalness": 0.9, "roughness": 0.3 }
+    }
+  ],
+  "lights": [
+    { "id": "ambient_01", "type": "ambient", "color": "#112244", "intensity": 0.3 },
+    { "id": "hemi_01", "type": "hemisphere", "color": "#0a0a2e", "intensity": 0.5 },
+    { "id": "point_blue_01", "type": "point", "position": { "x": -10, "y": 9, "z": 5 }, "color": "#4488ff", "intensity": 2.0, "distance": 18, "decay": 2 },
+    { "id": "point_blue_02", "type": "point", "position": { "x": -4, "y": 9, "z": 5 }, "color": "#4488ff", "intensity": 2.0, "distance": 18, "decay": 2 },
+    { "id": "point_blue_03", "type": "point", "position": { "x": 2, "y": 9, "z": 5 }, "color": "#4488ff", "intensity": 2.0, "distance": 18, "decay": 2 },
+    { "id": "point_blue_04", "type": "point", "position": { "x": -10, "y": 11, "z": -5 }, "color": "#4488ff", "intensity": 2.0, "distance": 18, "decay": 2 },
+    { "id": "point_blue_05", "type": "point", "position": { "x": -4, "y": 11, "z": -5 }, "color": "#4488ff", "intensity": 2.0, "distance": 18, "decay": 2 },
+    { "id": "point_warm_01", "type": "point", "position": { "x": -4, "y": 3.5, "z": 0 }, "color": "#ffcc88", "intensity": 1.0, "distance": 12, "decay": 2 }
+  ],
+  "particles": [
+    {
+      "id": "flow_01",
+      "emitterType": "pipe_flow",
+      "pathId": "pipe_main",
+      "count": 3000,
+      "color": "#4488ff",
+      "size": 0.06,
+      "speed": 0.4,
+      "lifetime": 3.0,
+      "opacity": 0.7
+    }
+  ],
+  "camera": {
+    "initial": { "position": { "x": 18, "y": 14, "z": 18 }, "target": { "x": -4, "y": 4, "z": 0 }, "fov": 55 },
+    "animation": { "type": "orbit", "speed": 0.15, "radius": 22, "height": 14, "autoStart": true }
+  },
+  "postprocessing": {
+    "bloom": { "enabled": true, "threshold": 0.6, "strength": 1.5, "radius": 0.5 },
+    "sao": { "enabled": false }
+  }
+}
