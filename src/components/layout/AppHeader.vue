@@ -100,6 +100,9 @@ const uiStore = useUIStore()
 }
 
 .header-btn {
-  color: var(--text-secondary);
+  color: var(--text-primary) !important;
+}
+.header-btn:hover {
+  color: var(--accent-primary) !important;
 }
 </style>
