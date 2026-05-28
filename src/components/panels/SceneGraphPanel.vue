@@ -70,7 +70,7 @@
 
     <!-- ======================== 编辑弹窗 ======================== -->
     <Teleport to="body">
-      <div v-if="dialogVisible" class="dialog-overlay" @click.self="closeDialog">
+      <div v-if="dialogVisible" class="dialog-overlay">
         <div class="dialog-panel">
           <!-- 头部 -->
           <div class="dialog-header">
@@ -671,36 +671,28 @@ function posStr(pos: { x: number; y: number; z: number }): string {
 /* ======================== 弹窗 ======================== */
 .dialog-overlay {
   position: fixed;
-  inset: 0;
+  top: 56px;
+  right: 16px;
   z-index: 2000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(2px);
-  animation: fadeIn 120ms ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  pointer-events: none;
 }
 
 .dialog-panel {
   background: var(--bg-secondary);
   border: 1px solid var(--border-default);
   border-radius: 8px;
-  width: 360px;
-  max-height: 80vh;
+  width: 340px;
+  max-height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
-  animation: slideUp 150ms ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
+  animation: slideIn 150ms ease;
 }
 
-@keyframes slideUp {
-  from { transform: translateY(12px); opacity: 0.8; }
-  to { transform: translateY(0); opacity: 1; }
+@keyframes slideIn {
+  from { transform: translateX(20px); opacity: 0.7; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
 .dialog-header {
