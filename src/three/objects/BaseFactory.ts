@@ -1,6 +1,12 @@
 import * as THREE from 'three'
 import type { IndustrialObject, PBRMaterial } from '@/types/scene-dsl'
 
+const MAT_SIDE_MAP: Record<number, THREE.Side> = {
+  0: THREE.FrontSide,
+  1: THREE.BackSide,
+  2: THREE.DoubleSide,
+}
+
 export abstract class BaseFactory {
   abstract readonly type: string
 
@@ -19,6 +25,7 @@ export abstract class BaseFactory {
       transparent: matDef.transparent ?? false,
       opacity: matDef.opacity ?? 1,
       wireframe: matDef.wireframe ?? false,
+      side: matDef.side !== undefined ? MAT_SIDE_MAP[matDef.side] : THREE.DoubleSide,
     })
   }
 

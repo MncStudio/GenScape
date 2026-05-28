@@ -53,7 +53,7 @@ export class GenScapeScene {
     this.controls.minDistance = 3
     this.controls.maxDistance = 80
     this.controls.maxPolarAngle = Math.PI / 2 + 0.3
-    this.controls.target.set(0, 4, 4)
+    this.controls.target.set(0, 4, 0)
     this.controls.update()
   }
 
@@ -87,6 +87,59 @@ export class GenScapeScene {
 
   getObjectMap(): Map<string, THREE.Object3D> {
     return this.builder.getObjectMap()
+  }
+
+  private highlightedId: string | null = null
+  private highlightBackup = new Map<string, { emissive?: string; emissiveIntensity?: number }>()
+
+  highlightObject(id: string | null): void {
+    // 恢复上一个高亮
+    if (this.highlightedId) {
+      const prev = this.getObject(this.highlightedId)
+      if (prev) {
+        const backup = this.highlightBackup.get(this.highlightedId)
+        prev.traverse(child => {
+          if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
+            if (backup) {
+              child.material.emissive.set(backup.emissive ?? '#000000')
+              child.material.emissiveIntensity = backup.emissiveIntensity ?? 0
+            } else {
+              child.material.emissive.set('#000000')
+              child.material.emissiveIntensity = 0
+            }
+          }
+        })
+      }
+      this.highlightBackup.delete(this.highlightedId)
+      this.highlightedId = null
+    }
+
+    if (!id) return
+
+    const obj = this.getObject(id)
+    if (!obj) return
+
+    // 备份并应用高亮
+    this.highlightedId = id
+    let backup: { emissive?: string; emissiveIntensity?: number } = {}
+    obj.traverse(child => {
+      if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
+        backup = {
+          emissive: '#' + child.material.emissive.getHexString(),
+          emissiveIntensity: child.material.emissiveIntensity,
+        }
+        child.material.emissive.set('#00d4ff')
+        child.material.emissiveIntensity = 0.6
+      }
+    })
+    this.highlightBackup.set(id, backup)
+  }
+
+  getBuiltinLights(): { ambient: THREE.AmbientLight | null; key: THREE.DirectionalLight | null; fill: THREE.DirectionalLight | null } {
+    const ambient = this.scene.getObjectByName('builtin_ambient') as THREE.AmbientLight | null
+    const key = this.scene.getObjectByName('builtin_key_light') as THREE.DirectionalLight | null
+    const fill = this.scene.getObjectByName('builtin_fill_light') as THREE.DirectionalLight | null
+    return { ambient, key, fill }
   }
 
   onRender(cb: (dt: number) => void): void {

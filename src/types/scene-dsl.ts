@@ -82,6 +82,7 @@ export interface PBRMaterial {
   opacity?: number
   transparent?: boolean
   wireframe?: boolean
+  side?: number  // THREE.FrontSide=0, BackSide=1, DoubleSide=2
 }
 
 // ---- 灯光 ----

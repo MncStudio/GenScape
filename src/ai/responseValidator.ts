@@ -80,9 +80,12 @@ function fixObject(obj: any, index: number): IndustrialObject {
     scale: obj.scale,
     params: obj.params ?? {},
     material: {
-      color: obj.material?.color ?? '#888888',
+      color: obj.material?.color ?? '#557799',
       metalness: obj.material?.metalness ?? 0.5,
       roughness: obj.material?.roughness ?? 0.5,
+      emissive: obj.material?.emissive,
+      emissiveIntensity: obj.material?.emissiveIntensity,
+      side: obj.material?.side,
     },
     label: obj.label,
   }
