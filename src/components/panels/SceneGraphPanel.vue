@@ -89,12 +89,12 @@
                 </div>
                 <div class="edit-row">
                   <label>金属度</label>
-                  <input type="range" v-model.number="editMetalness" min="0" max="1" step="0.01" @change="applyPBR" />
+                  <el-slider v-model="editMetalness" :min="0" :max="1" :step="0.01" class="edit-slider" @change="applyPBR" />
                   <span class="val">{{ editMetalness.toFixed(2) }}</span>
                 </div>
                 <div class="edit-row">
                   <label>粗糙度</label>
-                  <input type="range" v-model.number="editRoughness" min="0" max="1" step="0.01" @change="applyPBR" />
+                  <el-slider v-model="editRoughness" :min="0" :max="1" :step="0.01" class="edit-slider" @change="applyPBR" />
                   <span class="val">{{ editRoughness.toFixed(2) }}</span>
                 </div>
                 <div class="edit-row">
@@ -150,7 +150,7 @@
                 </div>
                 <div class="edit-row">
                   <label>强度</label>
-                  <input type="range" v-model.number="builtinEdit.intensity" min="0" max="10" step="0.1"
+                  <el-slider v-model="builtinEdit.intensity" :min="0" :max="10" :step="0.1" class="edit-slider"
                     @change="applyBuiltin" />
                   <span class="val">{{ builtinEdit.intensity.toFixed(1) }}</span>
                 </div>
@@ -179,7 +179,7 @@
                 </div>
                 <div class="edit-row">
                   <label>强度</label>
-                  <input type="range" v-model.number="editLightIntensity" min="0" max="10" step="0.1"
+                  <el-slider v-model="editLightIntensity" :min="0" :max="10" :step="0.1" class="edit-slider"
                     @change="applyLightIntensity" />
                   <span class="val">{{ editLightIntensity }}</span>
                 </div>
@@ -819,5 +819,9 @@ function posStr(pos: { x: number; y: number; z: number }): string {
 .ai-modify {
   display: flex;
   gap: 6px;
+}
+
+.edit-slider {
+  flex: 1;
 }
 </style>
