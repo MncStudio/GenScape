@@ -101,12 +101,13 @@ npm run test:e2e     # Playwright E2E 测试
 
 ## UI 设计规范
 
-- 参考 SpaceX 设计语言：[docs/design/spacex/DESIGN.md](docs/design/spacex/DESIGN.md)
+- 参考 SpaceX 设计语言，完整规范见 [docs/design/spacex/](docs/design/spacex/)
   - 纯黑背景 (#000000)，Spectral White 文字 (#f0f0fa)
-  - D-DIN 字体，全局 uppercase + 正 letter-spacing
-  - Ghost 按钮：rgba(240,240,250,0.1) 背景，32px 圆角
-  - 零阴影、零卡片、零装饰元素
-  - 预览：[docs/design/spacex/preview-dark.html](docs/design/spacex/preview-dark.html)
+  - 全局 uppercase + 正 letter-spacing（1px-4px）
+  - Ghost 按钮：rgba(240,240,250,0.1) 背景 + rgba(240,240,250,0.35) 边框，32px 圆角
+  - 零阴影、零装饰元素，无扫描线/角标
+  - 色彩变量定义在 [src/assets/styles/variables.css](src/assets/styles/variables.css)
+  - Element Plus 暗色覆盖在 variables.css 末尾 (--el-* 变量)
 
 ## 用户偏好
 
