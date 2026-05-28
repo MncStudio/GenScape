@@ -14,11 +14,6 @@
       </span>
     </div>
 
-    <div class="status-right">
-      <span class="status-item">物体: {{ sceneStore.objectCount }}</span>
-      <span class="status-item">顶点: {{ formatNumber(sceneStore.vertexCount) }}</span>
-      <span class="status-item">{{ sceneStore.fps }} FPS</span>
-    </div>
   </footer>
 </template>
 

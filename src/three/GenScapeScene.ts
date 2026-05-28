@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import type { SceneDSL } from '@/types/scene-dsl'
+import { useSceneStore } from '@/store/modules/scene.store'
 import {
   createRenderer,
   createDefaultScene,
@@ -27,6 +28,9 @@ export class GenScapeScene {
   private clock = new THREE.Clock()
   private onRenderCallbacks: Array<(dt: number) => void> = []
   private namedCallbacks = new Map<string, (dt: number) => void>()
+  private fpsFrames = 0
+  private fpsTime = 0
+  private store = useSceneStore()
 
   async init(container: HTMLElement): Promise<void> {
     this.container = container
@@ -159,6 +163,15 @@ export class GenScapeScene {
 
       const dt = Math.min(this.clock.getDelta(), 0.1)
       this.controls.update()
+
+      // FPS 统计，每 500ms 更新一次
+      this.fpsFrames++
+      this.fpsTime += dt
+      if (this.fpsTime >= 0.5) {
+        this.store.setFPS(Math.round(this.fpsFrames / this.fpsTime))
+        this.fpsFrames = 0
+        this.fpsTime = 0
+      }
 
       for (const cb of this.onRenderCallbacks) {
         cb(dt)
