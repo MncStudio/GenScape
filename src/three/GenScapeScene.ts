@@ -6,6 +6,7 @@ import {
   createDefaultScene,
   createDefaultCamera,
   handleResize,
+  generateEnvironmentMap,
   type RenderBackend,
   type GenScapeRenderer,
 } from './RendererFactory'
@@ -35,6 +36,10 @@ export class GenScapeScene {
     this.backend = backend
 
     this.scene = createDefaultScene()
+    // PMREMGenerator 仅兼容 WebGL，WebGPU 下跳过避免 "Texture already initialized" 错误
+    if (this.backend === 'webgl') {
+      this.scene.environment = generateEnvironmentMap(this.renderer)
+    }
     this.builder = new SceneBuilder(this.scene)
 
     this.camera = createDefaultCamera()

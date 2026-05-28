@@ -80,6 +80,19 @@ export async function createRenderer(
   return { renderer, backend: 'webgl' }
 }
 
+/**
+ * 使用 PMREMGenerator 生成程序化环境贴图，为 PBR 材质提供 IBL 反射。
+ * 解决无 envMap 时高 metalness 材质在远处变暗、变平的问题。
+ */
+export function generateEnvironmentMap(renderer: GenScapeRenderer): THREE.Texture {
+  const pmremGenerator = new THREE.PMREMGenerator(renderer)
+  const skyScene = new THREE.Scene()
+  skyScene.background = new THREE.Color('#8899cc')
+  const envMap = pmremGenerator.fromScene(skyScene).texture
+  pmremGenerator.dispose()
+  return envMap
+}
+
 export function createDefaultScene(): THREE.Scene {
   const scene = new THREE.Scene()
   scene.background = new THREE.Color('#0a0a1a')

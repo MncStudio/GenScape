@@ -95,6 +95,7 @@ npm run test:e2e     # Playwright E2E 测试
 - 灯光完全由 AI 返回的 `lights` 数组决定，不做任何默认/fallback/清理
 - FogExp2 默认密度 0.00015（~58% 可见度 at 60m）
 - ACESFilmicToneMapping，曝光 1.2(WebGL) / 1.5(WebGPU)
+- PMREMGenerator 程序化环境贴图（#8899cc 天空色），为 PBR 材质提供 IBL 反射
 - 相机: near=0.1, far=500, OrbitControls minDistance=3, maxDistance=80
 - 粒子数量限制 1000-5000
 
