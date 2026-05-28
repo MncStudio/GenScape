@@ -72,10 +72,13 @@ export function validateAndFixSceneDSL(rawJson: string, prompt: string): SceneDS
 }
 
 function fixObject(obj: any, index: number): IndustrialObject {
+  // 场景大小限制 80m x 80m，钳制物体位置到 [-35, 35] 范围（留 5m 边距）
+  const clampPos = (v: number) => Math.max(-35, Math.min(35, v ?? 0))
+
   return {
     id: obj.id ?? `object_${index}`,
     type: obj.type ?? 'storage_tank',
-    position: { x: obj.position?.x ?? 0, y: obj.position?.y ?? 0, z: obj.position?.z ?? 0 },
+    position: { x: clampPos(obj.position?.x), y: obj.position?.y ?? 0, z: clampPos(obj.position?.z) },
     rotation: { x: obj.rotation?.x ?? 0, y: obj.rotation?.y ?? 0, z: obj.rotation?.z ?? 0 },
     scale: obj.scale,
     params: obj.params ?? {},
