@@ -44,14 +44,6 @@ onMounted(async () => {
     await init(containerRef.value)
   }
 
-  // 自动恢复暂存场景
-  if (sceneStore.status === 'idle' && sceneStore.hasLocalDraft()) {
-    const dsl = sceneStore.loadFromLocal()
-    if (dsl) {
-      getInstance()?.loadDSL(dsl)
-    }
-  }
-
   const observer = new ResizeObserver(() => {
     resize()
   })
