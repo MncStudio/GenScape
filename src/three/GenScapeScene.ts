@@ -57,7 +57,7 @@ export class GenScapeScene {
     this.controls.update()
   }
 
-  loadDSL(dsl: SceneDSL): void {
+  loadDSL(dsl: SceneDSL, resetCamera = true): void {
     this.builder.build(dsl)
 
     if (dsl.postprocessing?.bloom) {
@@ -73,12 +73,14 @@ export class GenScapeScene {
       })
     }
 
-    const { position, target, fov } = dsl.camera.initial
-    this.camera.position.set(position.x, position.y, position.z)
-    this.camera.fov = fov
-    this.camera.updateProjectionMatrix()
-    this.controls.target.set(target.x, target.y, target.z)
-    this.controls.update()
+    if (resetCamera) {
+      const { position, target, fov } = dsl.camera.initial
+      this.camera.position.set(position.x, position.y, position.z)
+      this.camera.fov = fov
+      this.camera.updateProjectionMatrix()
+      this.controls.target.set(target.x, target.y, target.z)
+      this.controls.update()
+    }
   }
 
   getObject(id: string): THREE.Object3D | undefined {

@@ -411,7 +411,7 @@ function selectObj(obj: IndustrialObject) {
 function rebuildFromDSL() {
   if (sceneStore.currentDSL) {
     import('@/composables/useScene').then(({ useScene }) => {
-      useScene().loadDSL(sceneStore.currentDSL!)
+      useScene().loadDSL(sceneStore.currentDSL!, false)
       if (sceneStore.selectedObjectId) {
         useScene().getInstance()?.highlightObject(sceneStore.selectedObjectId)
       }

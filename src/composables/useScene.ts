@@ -23,11 +23,11 @@ export function useScene() {
     return instance
   }
 
-  function loadDSL(dsl: SceneDSL): void {
+  function loadDSL(dsl: SceneDSL, resetCamera = true): void {
     if (!instance) {
       throw new Error('场景未初始化，请先调用 init()')
     }
-    instance.loadDSL(dsl)
+    instance.loadDSL(dsl, resetCamera)
     store.setDSL(dsl)
   }
 
