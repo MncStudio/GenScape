@@ -23,10 +23,6 @@ export const useSceneStore = defineStore('scene', () => {
     objectCount.value = dsl.objects.length
     buildSceneGraph(dsl)
     status.value = 'ready'
-    // 自动暂存到 localStorage
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(dsl))
-    } catch { /* quota exceeded, ignore */ }
   }
 
   function buildSceneGraph(dsl: SceneDSL) {
