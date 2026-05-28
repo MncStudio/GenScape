@@ -28,67 +28,6 @@
         </div>
         <button class="delete-btn" @click.stop="deleteObj(obj.id)" title="删除">×</button>
       </div>
-
-      <!-- 选中物体的属性面板 -->
-      <div v-if="selectedObj" class="edit-panel">
-        <div class="edit-title">修改: {{ selectedObj.label?.text ?? selectedObj.id }}</div>
-
-        <div class="edit-row">
-          <label>颜色</label>
-          <el-color-picker v-model="editColor" size="small" @change="applyColor" />
-        </div>
-
-        <!-- PBR 属性 -->
-        <div class="edit-row">
-          <label>金属</label>
-          <input type="range" v-model.number="editMetalness" min="0" max="1" step="0.01" @change="applyPBR" />
-          <span class="val">{{ editMetalness.toFixed(2) }}</span>
-        </div>
-
-        <div class="edit-row">
-          <label>粗糙</label>
-          <input type="range" v-model.number="editRoughness" min="0" max="1" step="0.01" @change="applyPBR" />
-          <span class="val">{{ editRoughness.toFixed(2) }}</span>
-        </div>
-
-        <div class="edit-row">
-          <label>自发光</label>
-          <el-color-picker v-model="editEmissive" size="small" @change="applyPBR" />
-          <button v-if="editEmissive" class="clear-emissive" @click="editEmissive = ''; applyPBR()">清除</button>
-        </div>
-
-        <div class="edit-row">
-          <label>位置</label>
-          <div class="vec3-inputs">
-            <input type="number" v-model.number="editPos.x" step="0.1" @change="applyPosition" />
-            <input type="number" v-model.number="editPos.y" step="0.1" @change="applyPosition" />
-            <input type="number" v-model.number="editPos.z" step="0.1" @change="applyPosition" />
-          </div>
-        </div>
-
-        <div class="edit-row">
-          <label>缩放</label>
-          <div class="vec3-inputs">
-            <input type="number" v-model.number="editScale.x" step="0.1" min="0.1" @change="applyScale" />
-            <input type="number" v-model.number="editScale.y" step="0.1" min="0.1" @change="applyScale" />
-            <input type="number" v-model.number="editScale.z" step="0.1" min="0.1" @change="applyScale" />
-          </div>
-        </div>
-
-        <div class="edit-divider">AI 修改</div>
-
-        <div class="ai-modify">
-          <el-input
-            v-model="modifyInstruction"
-            placeholder="如：把这个改成红色 / 整体升高2米"
-            size="small"
-            @keydown.enter="handleAIModify"
-          />
-          <el-button size="small" type="primary" :loading="modifying" @click="handleAIModify">
-            改
-          </el-button>
-        </div>
-      </div>
     </div>
 
     <!-- ======================== 光源列表 ======================== -->
@@ -105,37 +44,6 @@
         <div class="item-info">
           <span class="item-name">{{ bl.name }}</span>
           <span class="item-meta">{{ bl.type }} · {{ bl.color }}</span>
-        </div>
-      </div>
-
-      <!-- 内置光源编辑面板 -->
-      <div v-if="selectedBuiltin" class="edit-panel">
-        <div class="edit-title">修改: {{ selectedBuiltin.name }}</div>
-
-        <div class="edit-row">
-          <label>颜色</label>
-          <el-color-picker v-model="builtinEdit.color" size="small" @change="applyBuiltin" />
-        </div>
-
-        <div class="edit-row">
-          <label>强度</label>
-          <input type="range" v-model.number="builtinEdit.intensity" min="0" max="10" step="0.1"
-            @change="applyBuiltin" />
-          <span class="val">{{ builtinEdit.intensity.toFixed(1) }}</span>
-        </div>
-
-        <div v-if="selectedBuiltin.type !== 'ambient'" class="edit-row">
-          <label>位置</label>
-          <div class="vec3-inputs">
-            <input type="number" v-model.number="builtinEdit.posX" step="0.5" @change="applyBuiltin" />
-            <input type="number" v-model.number="builtinEdit.posY" step="0.5" @change="applyBuiltin" />
-            <input type="number" v-model.number="builtinEdit.posZ" step="0.5" @change="applyBuiltin" />
-          </div>
-        </div>
-
-        <div v-if="selectedBuiltin.type === 'directional' && selectedBuiltin.id === 'builtin_key_light'" class="edit-row">
-          <label>阴影</label>
-          <input type="checkbox" v-model="builtinEdit.castShadow" @change="applyBuiltin" />
         </div>
       </div>
 
@@ -158,47 +66,152 @@
           <span class="item-meta">{{ light.type }} · {{ light.color }}</span>
         </div>
       </div>
+    </div>
 
-      <!-- 选中场景光源的修改面板 -->
-      <div v-if="selectedLight" class="edit-panel">
-        <div class="edit-title">修改: {{ selectedLight.id }}</div>
+    <!-- ======================== 编辑弹窗 ======================== -->
+    <Teleport to="body">
+      <div v-if="dialogVisible" class="dialog-overlay" @click.self="closeDialog">
+        <div class="dialog-panel">
+          <!-- 头部 -->
+          <div class="dialog-header">
+            <span class="dialog-title">{{ dialogTitle }}</span>
+            <button class="dialog-close" @click="closeDialog">×</button>
+          </div>
 
-        <div class="edit-row">
-          <label>颜色</label>
-          <el-color-picker v-model="editLightColor" size="small" @change="applyLightColor" />
-        </div>
+          <div class="dialog-body">
+            <!-- 物体编辑 -->
+            <template v-if="dialogMode === 'object' && selectedObj">
+              <div class="edit-group">
+                <div class="group-label">材质</div>
+                <div class="edit-row">
+                  <label>颜色</label>
+                  <el-color-picker v-model="editColor" size="small" @change="applyColor" />
+                </div>
+                <div class="edit-row">
+                  <label>金属度</label>
+                  <input type="range" v-model.number="editMetalness" min="0" max="1" step="0.01" @change="applyPBR" />
+                  <span class="val">{{ editMetalness.toFixed(2) }}</span>
+                </div>
+                <div class="edit-row">
+                  <label>粗糙度</label>
+                  <input type="range" v-model.number="editRoughness" min="0" max="1" step="0.01" @change="applyPBR" />
+                  <span class="val">{{ editRoughness.toFixed(2) }}</span>
+                </div>
+                <div class="edit-row">
+                  <label>自发光</label>
+                  <el-color-picker v-model="editEmissive" size="small" @change="applyPBR" />
+                  <button v-if="editEmissive" class="clear-btn" @click="editEmissive = ''; applyPBR()">清除</button>
+                </div>
+              </div>
 
-        <div class="edit-row">
-          <label>强度</label>
-          <input type="range" v-model.number="editLightIntensity" min="0" max="10" step="0.1"
-            @change="applyLightIntensity" />
-          <span class="val">{{ editLightIntensity }}</span>
-        </div>
+              <div class="edit-group">
+                <div class="group-label">变换</div>
+                <div class="edit-row">
+                  <label>位置</label>
+                  <div class="vec3-inputs">
+                    <input type="number" v-model.number="editPos.x" step="0.1" @change="applyPosition" />
+                    <input type="number" v-model.number="editPos.y" step="0.1" @change="applyPosition" />
+                    <input type="number" v-model.number="editPos.z" step="0.1" @change="applyPosition" />
+                  </div>
+                </div>
+                <div class="edit-row">
+                  <label>缩放</label>
+                  <div class="vec3-inputs">
+                    <input type="number" v-model.number="editScale.x" step="0.1" min="0.1" @change="applyScale" />
+                    <input type="number" v-model.number="editScale.y" step="0.1" min="0.1" @change="applyScale" />
+                    <input type="number" v-model.number="editScale.z" step="0.1" min="0.1" @change="applyScale" />
+                  </div>
+                </div>
+              </div>
 
-        <div v-if="selectedLight.position" class="edit-row">
-          <label>位置</label>
-          <div class="vec3-inputs">
-            <input type="number" v-model.number="editLightPos.x" step="0.1" @change="applyLightPosition" />
-            <input type="number" v-model.number="editLightPos.y" step="0.1" @change="applyLightPosition" />
-            <input type="number" v-model.number="editLightPos.z" step="0.1" @change="applyLightPosition" />
+              <div class="edit-group">
+                <div class="group-label">AI 修改</div>
+                <div class="ai-modify">
+                  <el-input
+                    v-model="modifyInstruction"
+                    placeholder="如：把这个改成红色 / 整体升高2米"
+                    size="small"
+                    @keydown.enter="handleAIModify"
+                  />
+                  <el-button size="small" type="primary" :loading="modifying" @click="handleAIModify">
+                    改
+                  </el-button>
+                </div>
+              </div>
+            </template>
+
+            <!-- 内置光源编辑 -->
+            <template v-if="dialogMode === 'builtin' && selectedBuiltin">
+              <div class="edit-group">
+                <div class="group-label">光源属性</div>
+                <div class="edit-row">
+                  <label>颜色</label>
+                  <el-color-picker v-model="builtinEdit.color" size="small" @change="applyBuiltin" />
+                </div>
+                <div class="edit-row">
+                  <label>强度</label>
+                  <input type="range" v-model.number="builtinEdit.intensity" min="0" max="10" step="0.1"
+                    @change="applyBuiltin" />
+                  <span class="val">{{ builtinEdit.intensity.toFixed(1) }}</span>
+                </div>
+                <div v-if="selectedBuiltin.type !== 'ambient'" class="edit-row">
+                  <label>位置</label>
+                  <div class="vec3-inputs">
+                    <input type="number" v-model.number="builtinEdit.posX" step="0.5" @change="applyBuiltin" />
+                    <input type="number" v-model.number="builtinEdit.posY" step="0.5" @change="applyBuiltin" />
+                    <input type="number" v-model.number="builtinEdit.posZ" step="0.5" @change="applyBuiltin" />
+                  </div>
+                </div>
+                <div v-if="selectedBuiltin.type === 'directional' && selectedBuiltin.id === 'builtin_key_light'" class="edit-row">
+                  <label>阴影</label>
+                  <input type="checkbox" v-model="builtinEdit.castShadow" @change="applyBuiltin" />
+                </div>
+              </div>
+            </template>
+
+            <!-- 场景光源编辑 -->
+            <template v-if="dialogMode === 'dslLight' && selectedLight">
+              <div class="edit-group">
+                <div class="group-label">光源属性</div>
+                <div class="edit-row">
+                  <label>颜色</label>
+                  <el-color-picker v-model="editLightColor" size="small" @change="applyLightColor" />
+                </div>
+                <div class="edit-row">
+                  <label>强度</label>
+                  <input type="range" v-model.number="editLightIntensity" min="0" max="10" step="0.1"
+                    @change="applyLightIntensity" />
+                  <span class="val">{{ editLightIntensity }}</span>
+                </div>
+                <div v-if="selectedLight.position" class="edit-row">
+                  <label>位置</label>
+                  <div class="vec3-inputs">
+                    <input type="number" v-model.number="editLightPos.x" step="0.1" @change="applyLightPosition" />
+                    <input type="number" v-model.number="editLightPos.y" step="0.1" @change="applyLightPosition" />
+                    <input type="number" v-model.number="editLightPos.z" step="0.1" @change="applyLightPosition" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="edit-group">
+                <div class="group-label">AI 修改</div>
+                <div class="ai-modify">
+                  <el-input
+                    v-model="lightModifyInstruction"
+                    placeholder="如：亮度加倍 / 改成蓝色"
+                    size="small"
+                    @keydown.enter="handleLightAIModify"
+                  />
+                  <el-button size="small" type="primary" :loading="modifying" @click="handleLightAIModify">
+                    改
+                  </el-button>
+                </div>
+              </div>
+            </template>
           </div>
         </div>
-
-        <div class="edit-divider">AI 修改</div>
-
-        <div class="ai-modify">
-          <el-input
-            v-model="lightModifyInstruction"
-            placeholder="如：亮度加倍 / 改成蓝色"
-            size="small"
-            @keydown.enter="handleLightAIModify"
-          />
-          <el-button size="small" type="primary" :loading="modifying" @click="handleLightAIModify">
-            改
-          </el-button>
-        </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>
 
@@ -216,6 +229,24 @@ const modifyInstruction = ref('')
 const lightModifyInstruction = ref('')
 const modifying = ref(false)
 
+// ---- 弹窗状态 ----
+type DialogMode = 'object' | 'builtin' | 'dslLight' | null
+const dialogMode = ref<DialogMode>(null)
+const dialogVisible = computed(() => dialogMode.value !== null)
+
+const dialogTitle = computed(() => {
+  switch (dialogMode.value) {
+    case 'object': return `编辑: ${selectedObj.value?.label?.text ?? selectedObj.value?.id ?? ''}`
+    case 'builtin': return `编辑: ${selectedBuiltin.value?.name ?? ''}`
+    case 'dslLight': return `编辑: ${selectedLight.value?.id ?? ''}`
+    default: return ''
+  }
+})
+
+function closeDialog() {
+  dialogMode.value = null
+}
+
 // ---- 物体编辑状态 ----
 const selectedObj = computed(() => sceneStore.selectedObject)
 
@@ -226,7 +257,7 @@ const editEmissive = ref('')
 const editPos = ref({ x: 0, y: 0, z: 0 })
 const editScale = ref({ x: 1, y: 1, z: 1 })
 
-watch(() => sceneStore.selectedObjectId, () => {
+watch(() => sceneStore.selectedObjectId, (newId) => {
   const obj = sceneStore.selectedObject
   if (obj) {
     editColor.value = obj.material.color
@@ -236,6 +267,9 @@ watch(() => sceneStore.selectedObjectId, () => {
     editPos.value = { ...obj.position }
     editScale.value = obj.scale ? { ...obj.scale } : { x: 1, y: 1, z: 1 }
     modifyInstruction.value = ''
+    dialogMode.value = 'object'
+  } else if (!newId) {
+    dialogMode.value = null
   }
 })
 
@@ -246,13 +280,16 @@ const editLightColor = ref('#ffffff')
 const editLightIntensity = ref(1)
 const editLightPos = ref({ x: 0, y: 0, z: 0 })
 
-watch(() => sceneStore.selectedLightId, () => {
+watch(() => sceneStore.selectedLightId, (newId) => {
   const l = sceneStore.selectedLight
   if (l) {
     editLightColor.value = l.color
     editLightIntensity.value = l.intensity
     editLightPos.value = l.position ? { ...l.position } : { x: 0, y: 0, z: 0 }
     lightModifyInstruction.value = ''
+    dialogMode.value = 'dslLight'
+  } else if (!newId) {
+    // 仅当不是切换到内置光源时关闭弹窗
   }
 })
 
@@ -281,17 +318,18 @@ const selectedBuiltin = computed(() => builtinLights.value.find(l => l.id === se
 
 const builtinEdit = ref({ color: '#ffffff', intensity: 1, posX: 0, posY: 0, posZ: 0, castShadow: false })
 
-watch(selectedBuiltinId, () => {
+watch(selectedBuiltinId, (newId) => {
   const bl = selectedBuiltin.value
   if (bl) {
     builtinEdit.value = { color: bl.color, intensity: bl.intensity, posX: bl.posX, posY: bl.posY, posZ: bl.posZ, castShadow: bl.castShadow }
-    // 取消 DSL 光源选中
     sceneStore.selectLight(null)
     sceneStore.selectObject(null)
+    dialogMode.value = 'builtin'
+  } else if (!newId) {
+    // 仅当不是切换到其他类型时关闭弹窗
   }
 })
 
-// 从场景读取内置光源实际值
 function syncBuiltinFromScene() {
   import('@/composables/useScene').then(({ useScene }) => {
     const scene = useScene().getInstance()
@@ -333,7 +371,6 @@ function applyBuiltin() {
   const bl = selectedBuiltin.value
   if (!bl) return
 
-  // 更新本地状态
   bl.color = builtinEdit.value.color
   bl.intensity = builtinEdit.value.intensity
   bl.posX = builtinEdit.value.posX
@@ -341,7 +378,6 @@ function applyBuiltin() {
   bl.posZ = builtinEdit.value.posZ
   bl.castShadow = builtinEdit.value.castShadow
 
-  // 更新 Three.js 光源
   import('@/composables/useScene').then(({ useScene }) => {
     const scene = useScene().getInstance()
     if (!scene) return
@@ -367,7 +403,6 @@ function applyBuiltin() {
 function selectObj(obj: IndustrialObject) {
   sceneStore.selectObject(obj.id)
   selectedBuiltinId.value = null
-  // 高亮 3D 物体
   import('@/composables/useScene').then(({ useScene }) => {
     useScene().getInstance()?.highlightObject(obj.id)
   })
@@ -377,7 +412,6 @@ function rebuildFromDSL() {
   if (sceneStore.currentDSL) {
     import('@/composables/useScene').then(({ useScene }) => {
       useScene().loadDSL(sceneStore.currentDSL!)
-      // 重建后重新应用高亮
       if (sceneStore.selectedObjectId) {
         useScene().getInstance()?.highlightObject(sceneStore.selectedObjectId)
       }
@@ -434,6 +468,7 @@ function deleteObj(id: string) {
   if (!sceneStore.currentDSL) return
   if (sceneStore.selectedObjectId === id) {
     sceneStore.selectObject(null)
+    dialogMode.value = null
     import('@/composables/useScene').then(({ useScene }) => {
       useScene().getInstance()?.highlightObject(null)
     })
@@ -633,33 +668,113 @@ function posStr(pos: { x: number; y: number; z: number }): string {
   background: rgba(255, 68, 68, 0.1);
 }
 
-/* 编辑面板 */
-.edit-panel {
-  border-top: 1px solid var(--border-default);
-  padding: 8px;
-  margin-top: 4px;
-  background: var(--bg-tertiary);
-  border-radius: var(--radius-sm);
+/* ======================== 弹窗 ======================== */
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+  animation: fadeIn 120ms ease;
 }
 
-.edit-title {
-  font-size: 12px;
-  color: var(--text-accent);
-  margin-bottom: 8px;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.dialog-panel {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  width: 360px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+  animation: slideUp 150ms ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(12px); opacity: 0.8; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.dialog-title {
+  font-size: 13px;
   font-weight: 600;
+  color: var(--text-primary);
+}
+
+.dialog-close {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 100ms ease;
+}
+
+.dialog-close:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.dialog-body {
+  padding: 12px 16px 16px;
+  overflow-y: auto;
+}
+
+.edit-group {
+  margin-bottom: 14px;
+}
+
+.edit-group:last-child {
+  margin-bottom: 0;
+}
+
+.group-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border-default);
 }
 
 .edit-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.edit-row:last-child {
+  margin-bottom: 0;
 }
 
 .edit-row label {
   font-size: 11px;
   color: var(--text-muted);
-  width: 42px;
+  width: 48px;
   flex-shrink: 0;
 }
 
@@ -673,10 +788,10 @@ function posStr(pos: { x: number; y: number; z: number }): string {
   width: 100%;
   background: var(--bg-primary);
   border: 1px solid var(--border-default);
-  border-radius: 2px;
+  border-radius: 4px;
   color: var(--text-primary);
-  font-size: 11px;
-  padding: 2px 4px;
+  font-size: 12px;
+  padding: 4px 6px;
   font-family: var(--font-mono);
 }
 
@@ -686,33 +801,31 @@ function posStr(pos: { x: number; y: number; z: number }): string {
 }
 
 .edit-row .val {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-accent);
-  width: 32px;
+  width: 36px;
   text-align: right;
   font-family: var(--font-mono);
 }
 
-.clear-emissive {
+.clear-btn {
   font-size: 10px;
-  padding: 2px 6px;
+  padding: 2px 8px;
   border: 1px solid var(--border-default);
-  border-radius: 2px;
+  border-radius: 4px;
   background: var(--bg-primary);
   color: var(--text-muted);
   cursor: pointer;
+  transition: all 100ms ease;
 }
 
-.edit-divider {
-  font-size: 10px;
-  color: var(--text-muted);
-  margin: 8px 0 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.clear-btn:hover {
+  border-color: var(--border-active);
+  color: var(--text-secondary);
 }
 
 .ai-modify {
   display: flex;
-  gap: 4px;
+  gap: 6px;
 }
 </style>
