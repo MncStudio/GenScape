@@ -70,7 +70,9 @@
 
 ## 五、已知技术债务
 
-- `scene.environment` 已通过 PMREMGenerator 程序化生成（#8899cc 天空色），解决高 metalness 材质远处变暗问题
+- 暂存改为手动模式：仅点击"暂存"按钮保存，刷新后需手动"加载暂存"恢复
+- scene.environment 已通过 PMREMGenerator 程序化生成（#8899cc 天空色），WebGL only
+- 场景大小限制：responseValidator 钳制物体 x/z 到 [-35, 35]
 - WebGPU 后处理不支持（BloomComposer 仅 WebGL）
 - `useScene.ts` 同时被静态和动态 import，构建 warning
 - Factory 中先创建裸材质再覆盖的方式造成瞬时白色闪烁（已缓解：fallback 颜色改为可见色）

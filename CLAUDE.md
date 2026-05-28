@@ -91,7 +91,7 @@ npm run test:e2e     # Playwright E2E 测试
 ## 关键设计约束
 
 - 坐标系 Y 轴向上，单位米
-- 场景大小 80m x 80m 以内
+- 场景大小 80m x 80m 以内，物体位置钳制在 [-35, 35] 范围（responseValidator 强制）
 - 灯光完全由 AI 返回的 `lights` 数组决定，不做任何默认/fallback/清理
 - FogExp2 默认密度 0.00015（~58% 可见度 at 60m）
 - ACESFilmicToneMapping，曝光 1.2(WebGL) / 1.5(WebGPU)
