@@ -23,6 +23,10 @@ export const useSceneStore = defineStore('scene', () => {
     objectCount.value = dsl.objects.length
     buildSceneGraph(dsl)
     status.value = 'ready'
+    // 自动暂存到 localStorage
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(dsl))
+    } catch { /* quota exceeded, ignore */ }
   }
 
   function buildSceneGraph(dsl: SceneDSL) {
@@ -95,10 +99,42 @@ export const useSceneStore = defineStore('scene', () => {
     return currentDSL.value.lights.find(l => l.id === selectedLightId.value) ?? null
   })
 
+  // ---- localStorage 暂存 ----
+  const STORAGE_KEY = 'genscape_draft'
+
+  function saveToLocal(): boolean {
+    if (!currentDSL.value) return false
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(currentDSL.value))
+      return true
+    } catch {
+      return false
+    }
+  }
+
+  function loadFromLocal(): SceneDSL | null {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY)
+      if (!raw) return null
+      return JSON.parse(raw) as SceneDSL
+    } catch {
+      return null
+    }
+  }
+
+  function hasLocalDraft(): boolean {
+    return localStorage.getItem(STORAGE_KEY) !== null
+  }
+
+  function clearLocal(): void {
+    localStorage.removeItem(STORAGE_KEY)
+  }
+
   return {
     status, currentDSL, sceneGraph, objectCount, vertexCount, fps, backend,
     selectedObjectId, selectedLightId, selectedObject, selectedLight,
     setStatus, setDSL, setFPS, setBackend, setVertexCount, reset,
     selectObject, selectLight, updateObjectInDSL, updateLightInDSL,
+    saveToLocal, loadFromLocal, hasLocalDraft, clearLocal,
   }
 })
