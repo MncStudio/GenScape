@@ -71,17 +71,59 @@ export function validateAndFixSceneDSL(rawJson: string, prompt: string): SceneDS
   return dsl
 }
 
+/**
+ * 物体尺寸限制（防止 AI 生成过大的物体）
+ * 场景 80m x 80m，物体需在合理工业尺度内
+ */
+const SIZE_LIMITS: Record<string, Record<string, { min: number; max: number }>> = {
+  storage_tank:     { radius: { min: 0.5, max: 4 }, height: { min: 1.5, max: 14 } },
+  pipe_segment:     { radius: { min: 0.05, max: 0.5 } },
+  platform:         { width: { min: 2, max: 16 }, depth: { min: 1, max: 10 }, height: { min: 1, max: 8 } },
+  building:         { width: { min: 2, max: 20 }, depth: { min: 2, max: 16 }, height: { min: 2, max: 22 } },
+  cooling_tower:    { baseRadius: { min: 1, max: 6 }, topRadius: { min: 0.5, max: 4 }, height: { min: 3, max: 18 } },
+  pipe_rack:        { width: { min: 1, max: 16 }, depth: { min: 0.5, max: 4 }, height: { min: 1, max: 10 } },
+  flare_stack:      { radius: { min: 0.1, max: 1 }, height: { min: 3, max: 20 } },
+  heat_exchanger:   { length: { min: 1, max: 8 }, radius: { min: 0.2, max: 2 } },
+  pump:             { radius: { min: 0.1, max: 1 }, height: { min: 0.3, max: 3 } },
+  valve_group:      { radius: { min: 0.05, max: 0.4 } },
+}
+
+function clampParams(type: string, params: Record<string, any>): Record<string, any> {
+  const limits = SIZE_LIMITS[type]
+  if (!limits) return params
+
+  const clamped: Record<string, any> = {}
+  for (const [key, value] of Object.entries(params)) {
+    const limit = limits[key]
+    if (limit && typeof value === 'number') {
+      clamped[key] = Math.max(limit.min, Math.min(limit.max, value))
+    } else {
+      clamped[key] = value
+    }
+  }
+  return clamped
+}
+
 function fixObject(obj: any, index: number): IndustrialObject {
   // 场景大小限制 80m x 80m，钳制物体位置到 [-35, 35] 范围（留 5m 边距）
   const clampPos = (v: number) => Math.max(-35, Math.min(35, v ?? 0))
+  // 限制 scale 防止物体被放大到不合理尺寸
+  const clampScale = (v: number | undefined) => v != null ? Math.max(0.5, Math.min(3, v)) : undefined
+
+  const rawScale = obj.scale
+  const scale = rawScale ? {
+    x: clampScale(rawScale.x) ?? 1,
+    y: clampScale(rawScale.y) ?? 1,
+    z: clampScale(rawScale.z) ?? 1,
+  } : undefined
 
   return {
     id: obj.id ?? `object_${index}`,
     type: obj.type ?? 'storage_tank',
     position: { x: clampPos(obj.position?.x), y: obj.position?.y ?? 0, z: clampPos(obj.position?.z) },
     rotation: { x: obj.rotation?.x ?? 0, y: obj.rotation?.y ?? 0, z: obj.rotation?.z ?? 0 },
-    scale: obj.scale,
-    params: obj.params ?? {},
+    scale,
+    params: clampParams(obj.type ?? 'storage_tank', obj.params ?? {}),
     material: {
       color: obj.material?.color ?? '#557799',
       metalness: obj.material?.metalness ?? 0.5,
