@@ -7,13 +7,37 @@ interface Particle {
   maxLife: number
 }
 
+let cachedCircleTexture: THREE.Texture | null = null
+
+function getCircleTexture(): THREE.Texture {
+  if (cachedCircleTexture) return cachedCircleTexture
+
+  const size = 64
+  const canvas = document.createElement('canvas')
+  canvas.width = size
+  canvas.height = size
+  const ctx = canvas.getContext('2d')!
+  const half = size / 2
+  const gradient = ctx.createRadialGradient(half, half, 0, half, half, half)
+  gradient.addColorStop(0, 'rgba(255,255,255,1)')
+  gradient.addColorStop(0.15, 'rgba(255,255,255,0.9)')
+  gradient.addColorStop(0.4, 'rgba(255,255,255,0.4)')
+  gradient.addColorStop(0.7, 'rgba(255,255,255,0.05)')
+  gradient.addColorStop(1, 'rgba(255,255,255,0)')
+  ctx.fillStyle = gradient
+  ctx.fillRect(0, 0, size, size)
+
+  cachedCircleTexture = new THREE.CanvasTexture(canvas)
+  cachedCircleTexture.needsUpdate = true
+  return cachedCircleTexture
+}
+
 export class ParticleEmitter {
   readonly id: string
   readonly type: string
   points: THREE.Points
   private particles: Particle[]
   private config: ParticleConfig
-  private material: THREE.ShaderMaterial
   private path: THREE.CatmullRomCurve3 | null = null
 
   constructor(config: ParticleConfig, objectMap: Map<string, THREE.Object3D>) {
@@ -25,7 +49,6 @@ export class ParticleEmitter {
     const count = Math.min(config.count, 5000)
     const positions = new Float32Array(count * 3)
     const colors = new Float32Array(count * 3)
-    const sizes = new Float32Array(count)
 
     const baseColor = new THREE.Color(config.color)
 
@@ -46,57 +69,32 @@ export class ParticleEmitter {
       colors[i * 3] = baseColor.r * alpha
       colors[i * 3 + 1] = baseColor.g * alpha
       colors[i * 3 + 2] = baseColor.b * alpha
-
-      sizes[i] = config.size * (0.5 + Math.random())
     }
 
     const geo = new THREE.BufferGeometry()
     geo.setAttribute('position', new THREE.BufferAttribute(positions, 3))
     geo.setAttribute('color', new THREE.BufferAttribute(colors, 3))
-    geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
 
     const blending = config.blending === 'additive' ? THREE.AdditiveBlending : THREE.NormalBlending
 
-    this.material = new THREE.ShaderMaterial({
-      uniforms: {
-        uTime: { value: 0 },
-      },
-      vertexShader: /* glsl */ `
-        attribute float size;
-        varying vec3 vColor;
-        void main() {
-          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = size * (200.0 / -mvPosition.z);
-          gl_Position = projectionMatrix * mvPosition;
-          vColor = color;
-        }
-      `,
-      fragmentShader: /* glsl */ `
-        varying vec3 vColor;
-        void main() {
-          float d = length(gl_PointCoord - 0.5) * 2.0;
-          float alpha = 1.0 - smoothstep(0.0, 1.0, d);
-          if (alpha < 0.02) discard;
-          gl_FragColor = vec4(vColor, alpha);
-        }
-      `,
-      transparent: true,
-      depthWrite: false,
+    const material = new THREE.PointsMaterial({
+      size: config.size * 0.15,
+      map: getCircleTexture(),
       blending,
+      depthWrite: false,
+      transparent: true,
       vertexColors: true,
+      sizeAttenuation: true,
     })
 
-    this.points = new THREE.Points(geo, this.material)
+    this.points = new THREE.Points(geo, material)
     this.points.name = `emitter_${config.id}`
     this.points.renderOrder = 999
   }
 
   private resolvePath(pathId: string, objectMap: Map<string, THREE.Object3D>): THREE.CatmullRomCurve3 | null {
-    // 尝试从已知管道对象获取路径
     const obj = objectMap.get(pathId)
     if (obj) {
-      // 管道路径可以从 userData 或子 mesh 推断
-      const positions: THREE.Vector3[] = []
       obj.traverse(child => {
         if (child instanceof THREE.Mesh && child.geometry.type === 'TubeGeometry') {
           const tubeGeo = child.geometry as THREE.TubeGeometry
@@ -106,14 +104,12 @@ export class ParticleEmitter {
       })
     }
 
-    // 从 config 的 path 点位构建
     const path = (this.config as any)._path
     if (path && Array.isArray(path)) {
       const pts = path.map((p: Vec3) => new THREE.Vector3(p.x, p.y, p.z))
       if (pts.length >= 2) return new THREE.CatmullRomCurve3(pts)
     }
 
-    // 默认：直线
     return new THREE.CatmullRomCurve3([
       new THREE.Vector3(-5, 0.5, 0),
       new THREE.Vector3(5, 0.5, 0),
@@ -152,7 +148,6 @@ export class ParticleEmitter {
       return [pt.x + spread, pt.y + spread, pt.z + spread]
     }
 
-    // 默认：随机散布
     return [
       (Math.random() - 0.5) * 10,
       Math.random() * 5,
@@ -165,7 +160,6 @@ export class ParticleEmitter {
     const count = this.particles.length
     const speed = this.config.speed
 
-    // 如果有 originId，动态跟踪物体位置
     let originPos = new THREE.Vector3(0, 0, 0)
     if (this.config.emitterType === 'indicator' && this.config.originId) {
       const originObj = objectMap.get(this.config.originId)
@@ -212,12 +206,11 @@ export class ParticleEmitter {
     }
 
     this.points.geometry.attributes.position.needsUpdate = true
-    this.material.uniforms.uTime.value += dt
   }
 
   dispose(): void {
     this.points.geometry.dispose()
-    this.material.dispose()
+    ;(this.points.material as THREE.Material).dispose()
   }
 }
 
