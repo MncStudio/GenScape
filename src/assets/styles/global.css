@@ -74,3 +74,301 @@ input, textarea, select {
 input:focus, textarea:focus {
   border-color: var(--border-active);
 }
+
+/* ======================================== */
+/*  Element Plus 组件级 SpaceX 覆盖          */
+/* ======================================== */
+
+/* --- Button: 大写 + 零阴影聚焦 --- */
+.el-button {
+  text-transform: uppercase;
+  letter-spacing: 1.17px;
+  transition: all 0.2s ease;
+}
+
+/* 默认按钮 = Ghost 风格 */
+.el-button--default {
+  --el-button-bg-color: rgba(240, 240, 250, 0.1);
+  --el-button-border-color: rgba(240, 240, 250, 0.35);
+  --el-button-text-color: #f0f0fa;
+}
+
+.el-button--default:hover {
+  --el-button-bg-color: rgba(240, 240, 250, 0.2);
+  --el-button-border-color: rgba(240, 240, 250, 0.5);
+}
+
+.el-button--default:active {
+  --el-button-bg-color: rgba(240, 240, 250, 0.15);
+  --el-button-border-color: rgba(240, 240, 250, 0.45);
+}
+
+.el-button:focus,
+.el-button:focus-visible {
+  box-shadow: none !important;
+  outline: none;
+}
+
+.el-button.is-focus {
+  box-shadow: none !important;
+}
+
+/* text 按钮 */
+.el-button.is-text {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-secondary);
+  border-radius: 4px;
+}
+
+.el-button.is-text:hover,
+.el-button.is-text:focus {
+  color: var(--text-primary);
+  background: rgba(240, 240, 250, 0.06);
+}
+
+/* primary 按钮 */
+.el-button--primary {
+  --el-button-bg-color: rgba(240, 240, 250, 0.15);
+  --el-button-border-color: rgba(240, 240, 250, 0.45);
+  --el-button-text-color: #f0f0fa;
+}
+
+.el-button--primary:hover {
+  --el-button-bg-color: rgba(240, 240, 250, 0.25);
+}
+
+/* --- Input / Textarea --- */
+/* 注意：Element Plus 用 box-shadow inset 做输入框边框，不能设 none */
+.el-input__wrapper {
+  box-shadow: 0 0 0 1px var(--el-input-border-color) inset !important;
+  background-color: var(--el-input-bg-color) !important;
+}
+
+.el-input__wrapper:hover {
+  box-shadow: 0 0 0 1px var(--el-input-hover-border-color) inset !important;
+}
+
+.el-input.is-focus .el-input__wrapper {
+  box-shadow: 0 0 0 1px var(--el-input-focus-border-color) inset !important;
+}
+
+.el-input.is-disabled .el-input__wrapper {
+  box-shadow: 0 0 0 1px var(--el-disabled-border-color) inset !important;
+  background-color: var(--el-disabled-bg-color) !important;
+}
+
+.el-textarea__inner {
+  background-color: var(--el-input-bg-color);
+  border-color: var(--el-input-border-color);
+  color: var(--el-input-text-color);
+}
+
+.el-textarea__inner:hover {
+  border-color: var(--el-input-hover-border-color);
+}
+
+.el-textarea__inner:focus {
+  border-color: var(--el-input-focus-border-color);
+  box-shadow: none;
+}
+
+/* --- Select --- */
+.el-select .el-input__wrapper {
+  box-shadow: 0 0 0 1px var(--el-input-border-color) inset !important;
+}
+
+.el-select .el-input__wrapper:hover {
+  box-shadow: 0 0 0 1px var(--el-select-border-color-hover) inset !important;
+}
+
+.el-select-dropdown__item.is-selected {
+  color: #f0f0fa;
+  font-weight: 700;
+}
+
+.el-select-dropdown__item:hover:not(.is-selected) {
+  background: rgba(240, 240, 250, 0.06);
+}
+
+/* --- Slider: 停止点 & tooltip --- */
+.el-slider__stop {
+  background-color: rgba(240, 240, 250, 0.4);
+}
+
+.el-slider__button {
+  border-color: #f0f0fa;
+  background: #000000;
+}
+
+.el-slider__button:hover,
+.el-slider__button:focus {
+  border-color: #f0f0fa;
+  box-shadow: none;
+}
+
+/* --- Color Picker --- */
+.el-color-picker__trigger {
+  border-color: rgba(240, 240, 250, 0.15);
+  transition: border-color 0.2s ease;
+}
+
+.el-color-picker__trigger:hover {
+  border-color: rgba(240, 240, 250, 0.4);
+}
+
+.el-color-picker__color {
+  border-color: rgba(240, 240, 250, 0.08);
+}
+
+/* --- Input clear/password 图标 hover --- */
+.el-input__suffix .el-icon:hover {
+  color: #f0f0fa;
+}
+
+.el-input__clear:hover {
+  color: #f0f0fa;
+}
+
+/* --- Tag --- */
+.el-tag {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+}
+
+.el-tag:hover {
+  border-color: rgba(240, 240, 250, 0.35);
+  color: #f0f0fa;
+}
+
+.el-tag--dark {
+  --el-tag-bg-color: rgba(240, 240, 250, 0.08);
+  --el-tag-border-color: rgba(240, 240, 250, 0.2);
+  --el-tag-text-color: rgba(240, 240, 250, 0.85);
+}
+
+.el-tag--dark:hover {
+  background: rgba(240, 240, 250, 0.14);
+  border-color: rgba(240, 240, 250, 0.4);
+}
+
+/* --- Form: 大写标签 --- */
+.el-form-item__label {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+/* --- Dialog / MessageBox --- */
+.el-dialog {
+  border: 1px solid rgba(240, 240, 250, 0.12);
+}
+
+.el-dialog__header,
+.el-dialog__body {
+  color: var(--text-primary);
+}
+
+.el-message-box {
+  border: 1px solid rgba(240, 240, 250, 0.12);
+}
+
+/* --- Popper / Dropdown 边框 --- */
+.el-popper {
+  border: 1px solid rgba(240, 240, 250, 0.12) !important;
+}
+
+/* --- Message 通知 --- */
+.el-message {
+  border: 1px solid rgba(240, 240, 250, 0.12);
+  background: rgba(8, 8, 8, 0.95);
+}
+
+/* --- Loading mask --- */
+.el-loading-mask {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* --- 下拉面板背景（组件内部可能覆盖 :root 变量） --- */
+.el-select-dropdown {
+  background: rgba(8, 8, 8, 0.98) !important;
+}
+
+.el-select-dropdown__item {
+  color: rgba(240, 240, 250, 0.8);
+}
+
+.el-select-dropdown__item.is-hovering {
+  background: rgba(240, 240, 250, 0.06) !important;
+}
+
+.el-select-dropdown__item.is-selected {
+  background: rgba(240, 240, 250, 0.08);
+}
+
+.el-dropdown-menu {
+  background: rgba(8, 8, 8, 0.98) !important;
+  border: 1px solid rgba(240, 240, 250, 0.12) !important;
+}
+
+.el-dropdown-menu__item:hover {
+  background: rgba(240, 240, 250, 0.06) !important;
+  color: #f0f0fa !important;
+}
+
+/* --- Color Picker 面板 --- */
+.el-color-picker__panel {
+  background: rgba(8, 8, 8, 0.98) !important;
+  border: 1px solid rgba(240, 240, 250, 0.12) !important;
+}
+
+.el-color-dropdown__btn {
+  color: #f0f0fa !important;
+}
+
+.el-color-dropdown__btn:hover {
+  color: #f0f0fa !important;
+}
+
+.el-color-dropdown__value {
+  color: rgba(240, 240, 250, 0.7) !important;
+}
+
+/* --- DatePicker / TimePicker 面板 --- */
+.el-picker-panel {
+  background: rgba(8, 8, 8, 0.98) !important;
+  border: 1px solid rgba(240, 240, 250, 0.12) !important;
+  color: #f0f0fa;
+}
+
+.el-date-table td.current:not(.disabled) .el-date-table-cell__text {
+  background: #f0f0fa !important;
+  color: #000000 !important;
+}
+
+.el-date-table td.today .el-date-table-cell__text {
+  color: #f0f0fa;
+}
+
+.el-date-table td:hover .el-date-table-cell__text {
+  color: #f0f0fa;
+}
+
+/* --- 滚动条在 Element Plus 弹层内 --- */
+.el-select-dropdown::-webkit-scrollbar-thumb,
+.el-dropdown-menu::-webkit-scrollbar-thumb {
+  background: rgba(240, 240, 250, 0.12);
+}
+
+/* --- Empty / 空状态 --- */
+.el-empty__description p {
+  color: rgba(240, 240, 250, 0.4);
+}
+
+/* --- Divider --- */
+.el-divider {
+  border-color: rgba(240, 240, 250, 0.08);
+}

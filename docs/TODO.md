@@ -70,7 +70,8 @@
 
 ## 五、已知技术债务
 
-- UI 全面 SpaceX 风格：纯黑背景、Spectral White 文字、Ghost 按钮、零阴影、零装饰
+- UI 全面 SpaceX 风格：纯黑背景、Spectral White 文字、Ghost 按钮、零阴影、零装饰 ✅
+- Element Plus 组件已统一 SpaceX 风格：扩展 --el-* CSS 变量 + 组件类名级别覆盖（uppercase、去 focus shadow 等）
 - 暂存改为手动模式：仅点击"暂存"按钮保存，刷新后需手动"加载暂存"恢复
 - scene.environment 已通过 PMREMGenerator 程序化生成（#8899cc 天空色），WebGL only
 - 场景大小限制：responseValidator 钳制物体 x/z 到 [-35, 35]

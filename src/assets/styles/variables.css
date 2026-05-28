@@ -43,17 +43,146 @@
   --font-sans: 'Inter', 'HarmonyOS Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* === Element Plus 暗色覆盖 === */
-  --el-bg-color: #000000;
-  --el-bg-color-overlay: rgba(10, 10, 10, 0.95);
-  --el-text-color-primary: #f0f0fa;
-  --el-text-color-regular: rgba(240, 240, 250, 0.7);
-  --el-text-color-secondary: rgba(240, 240, 250, 0.4);
+  /* ======================================== */
+  /*  Element Plus — SpaceX 暗色主题覆盖       */
+  /* ======================================== */
+
+  /* --- 基础色板 --- */
+  --el-color-white: #f0f0fa;
+  --el-color-black: #000000;
+  --el-color-primary: #f0f0fa;
+  --el-color-primary-light-3: rgba(240, 240, 250, 0.7);
+  --el-color-primary-light-5: rgba(240, 240, 250, 0.5);
+  --el-color-primary-light-7: rgba(240, 240, 250, 0.15);
+  --el-color-primary-light-8: rgba(240, 240, 250, 0.08);
+  --el-color-primary-light-9: rgba(240, 240, 250, 0.04);
+  --el-color-primary-dark-2: #e0e0f0;
+  --el-color-success: #10b981;
+  --el-color-warning: #f59e0b;
+  --el-color-danger: #ef4444;
+  --el-color-error: #ef4444;
+  --el-color-info: rgba(240, 240, 250, 0.6);
+
+  /* --- 全局 --- */
+  --el-border-radius-base: 32px;
+  --el-border-radius-small: 4px;
+  --el-border-radius-round: 32px;
   --el-border-color: rgba(240, 240, 250, 0.08);
   --el-border-color-light: rgba(240, 240, 250, 0.08);
-  --el-color-primary: #f0f0fa;
-  --el-color-primary-light-3: rgba(240, 240, 250, 0.3);
-  --el-fill-color-blank: #000000;
+  --el-border-color-lighter: rgba(240, 240, 250, 0.05);
+  --el-border-color-extra-light: rgba(240, 240, 250, 0.03);
+  --el-border-color-dark: rgba(240, 240, 250, 0.15);
+
+  /* 零阴影 */
+  --el-box-shadow-light: none;
+  --el-box-shadow: none;
+  --el-box-shadow-dark: none;
+  --el-box-shadow-lighter: none;
+
+  /* 背景与文字 */
+  --el-bg-color: #000000;
+  --el-bg-color-page: #000000;
+  --el-bg-color-overlay: rgba(8, 8, 8, 0.98);
+  --el-text-color-primary: #f0f0fa;
+  --el-text-color-regular: rgba(240, 240, 250, 0.8);
+  --el-text-color-secondary: rgba(240, 240, 250, 0.5);
+  --el-text-color-placeholder: rgba(240, 240, 250, 0.3);
+  --el-text-color-disabled: rgba(240, 240, 250, 0.2);
+
+  /* 填充 */
   --el-fill-color: rgba(240, 240, 250, 0.04);
+  --el-fill-color-blank: #000000;
   --el-fill-color-light: rgba(240, 240, 250, 0.07);
+  --el-fill-color-lighter: rgba(240, 240, 250, 0.03);
+  --el-fill-color-darker: rgba(240, 240, 250, 0.12);
+
+  /* 禁用 */
+  --el-disabled-bg-color: rgba(240, 240, 250, 0.02);
+  --el-disabled-border-color: rgba(240, 240, 250, 0.06);
+  --el-disabled-text-color: rgba(240, 240, 250, 0.2);
+
+  /* overlay （遮罩层） */
+  --el-overlay-color: rgba(0, 0, 0, 0.8);
+  --el-overlay-color-light: rgba(0, 0, 0, 0.5);
+
+  /* --- Button --- */
+  --el-button-font-weight: 700;
+  --el-button-font-size: 13px;
+  --el-button-bg-color: rgba(240, 240, 250, 0.1);
+  --el-button-border-color: rgba(240, 240, 250, 0.35);
+  --el-button-text-color: #f0f0fa;
+  --el-button-hover-bg-color: rgba(240, 240, 250, 0.2);
+  --el-button-hover-border-color: rgba(240, 240, 250, 0.5);
+  --el-button-hover-text-color: #f0f0fa;
+  --el-button-active-bg-color: rgba(240, 240, 250, 0.15);
+  --el-button-active-border-color: rgba(240, 240, 250, 0.45);
+  --el-button-active-text-color: #f0f0fa;
+  --el-button-disabled-bg-color: rgba(240, 240, 250, 0.02);
+  --el-button-disabled-border-color: rgba(240, 240, 250, 0.06);
+  --el-button-disabled-text-color: rgba(240, 240, 250, 0.2);
+  --el-button-outline-color: transparent;
+  --el-button-active-color: #f0f0fa;
+  --el-button-hover-link-text-color: #f0f0fa;
+  --el-button-border-radius: 32px;
+  --el-button-padding-horizontal: 24px;
+
+  /* --- Input --- */
+  --el-input-bg-color: rgba(240, 240, 250, 0.05);
+  --el-input-border-color: rgba(240, 240, 250, 0.15);
+  --el-input-text-color: #f0f0fa;
+  --el-input-placeholder-color: rgba(240, 240, 250, 0.3);
+  --el-input-hover-border-color: rgba(240, 240, 250, 0.35);
+  --el-input-focus-border-color: #f0f0fa;
+  --el-input-clear-hover-color: rgba(240, 240, 250, 0.7);
+  --el-input-icon-color: rgba(240, 240, 250, 0.5);
+  --el-input-border-radius: 4px;
+
+  /* --- Select --- */
+  --el-select-border-color-hover: rgba(240, 240, 250, 0.35);
+  --el-select-input-focus-border-color: #f0f0fa;
+  --el-select-font-size: 14px;
+  --el-select-option-color: rgba(240, 240, 250, 0.8);
+  --el-select-option-selected-font-weight: 700;
+  --el-select-option-selected-color: #f0f0fa;
+  --el-select-dropdown-bg-color: rgba(8, 8, 8, 0.98);
+
+  /* --- Slider --- */
+  --el-slider-main-bg-color: #f0f0fa;
+  --el-slider-runway-bg-color: rgba(240, 240, 250, 0.15);
+  --el-slider-stop-bg-color: rgba(240, 240, 250, 0.4);
+  --el-slider-disabled-color: rgba(240, 240, 250, 0.06);
+  --el-slider-height: 4px;
+  --el-slider-button-size: 14px;
+
+  /* --- Form --- */
+  --el-form-label-font-size: 12px;
+
+  /* --- Tag --- */
+  --el-tag-font-size: 11px;
+  --el-tag-border-radius: 4px;
+  --el-tag-bg-color: rgba(240, 240, 250, 0.06);
+  --el-tag-border-color: rgba(240, 240, 250, 0.15);
+  --el-tag-text-color: rgba(240, 240, 250, 0.8);
+  --el-tag-hover-color: rgba(240, 240, 250, 0.9);
+
+  /* --- Dialog / MessageBox --- */
+  --el-dialog-bg-color: rgba(8, 8, 8, 0.98);
+  --el-dialog-border-radius: 4px;
+  --el-msgbox-bg-color: rgba(8, 8, 8, 0.98);
+  --el-msgbox-border-radius: 4px;
+  --el-popover-bg-color: rgba(8, 8, 8, 0.98);
+  --el-popover-border-radius: 4px;
+
+  /* --- 组件内部背景变量（EP 组件会局部覆盖 --el-fill-color-blank） --- */
+  --el-colorpicker-bg-color: #000000;
+  --el-datepicker-bg-color: #000000;
+  --el-popper-bg-color-dark: #000000;
+  --el-popper-bg-color-light: #000000;
+  --el-select-dropdown-bg-color: rgba(8, 8, 8, 0.98);
+  --el-cascader-menu-bg-color: #000000;
+  --el-timepicker-bg-color: #000000;
+  --el-dropdown-menu-bg-color: rgba(8, 8, 8, 0.98);
+
+  /* 强制暗色 scheme */
+  color-scheme: dark;
 }
