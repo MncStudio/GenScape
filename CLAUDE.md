@@ -99,6 +99,15 @@ npm run test:e2e     # Playwright E2E 测试
 - 相机: near=0.1, far=500, OrbitControls minDistance=3, maxDistance=80
 - 粒子数量限制 1000-5000
 
+## UI 设计规范
+
+- 参考 SpaceX 设计语言：[docs/design/spacex/DESIGN.md](docs/design/spacex/DESIGN.md)
+  - 纯黑背景 (#000000)，Spectral White 文字 (#f0f0fa)
+  - D-DIN 字体，全局 uppercase + 正 letter-spacing
+  - Ghost 按钮：rgba(240,240,250,0.1) 背景，32px 圆角
+  - 零阴影、零卡片、零装饰元素
+  - 预览：[docs/design/spacex/preview-dark.html](docs/design/spacex/preview-dark.html)
+
 ## 用户偏好
 
 - 始终使用中文回复
