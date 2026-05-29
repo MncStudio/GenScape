@@ -13,6 +13,8 @@ import {
 } from './RendererFactory'
 import { SceneBuilder } from './SceneBuilder'
 import { BloomComposer } from './postprocessing/BloomComposer'
+import { CameraAnimator } from './animations/CameraAnimator'
+import { ObjectAnimator } from './animations/ObjectAnimator'
 
 export class GenScapeScene {
   scene!: THREE.Scene
@@ -21,6 +23,8 @@ export class GenScapeScene {
   controls!: OrbitControls
   backend!: RenderBackend
 
+  cameraAnimator!: CameraAnimator
+  objectAnimator!: ObjectAnimator
   private builder!: SceneBuilder
   private bloomComposer!: BloomComposer
   private container!: HTMLElement
@@ -52,6 +56,8 @@ export class GenScapeScene {
     this.bloomComposer.init(this.renderer, this.scene, this.camera, backend)
 
     this.setupControls()
+    this.cameraAnimator = new CameraAnimator(this.camera, this.controls)
+    this.objectAnimator = new ObjectAnimator()
     this.startLoop()
   }
 
@@ -89,6 +95,21 @@ export class GenScapeScene {
       this.camera.updateProjectionMatrix()
       this.controls.target.set(target.x, target.y, target.z)
       this.controls.update()
+    }
+
+    // 动画配置
+    this.objectAnimator.setObjectMap(this.builder.getObjectMap())
+    if (dsl.camera.animation) {
+      this.cameraAnimator.setConfig(dsl.camera.animation)
+      if (dsl.camera.animation.autoStart) {
+        this.cameraAnimator.start()
+      }
+    }
+    if (dsl.animations?.length) {
+      this.objectAnimator.setAnimations(dsl.animations)
+      if (dsl.camera.animation?.autoStart) {
+        this.objectAnimator.start()
+      }
     }
   }
 
@@ -179,6 +200,8 @@ export class GenScapeScene {
       for (const cb of this.namedCallbacks.values()) {
         cb(dt)
       }
+      this.cameraAnimator.update(dt)
+      this.objectAnimator.update(dt)
 
       if (this.bloomComposer.isActive) {
         this.bloomComposer.render()
@@ -196,6 +219,8 @@ export class GenScapeScene {
 
   destroy(): void {
     cancelAnimationFrame(this.animationId)
+    this.cameraAnimator.stop()
+    this.objectAnimator.stop()
     this.bloomComposer.dispose()
     this.builder.clear()
     this.controls.dispose()

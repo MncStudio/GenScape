@@ -35,6 +35,9 @@ import { markRaw } from 'vue'
 import { Grid, Download, FolderOpened, Clock, VideoPlay, ChatDotRound } from '@element-plus/icons-vue'
 import SceneGraphPanel from '@/components/panels/SceneGraphPanel.vue'
 import ExportPanel from '@/components/panels/ExportPanel.vue'
+import AssetLibraryPanel from '@/components/panels/AssetLibraryPanel.vue'
+import HistoryPanel from '@/components/panels/HistoryPanel.vue'
+import TimelinePanel from '@/components/panels/TimelinePanel.vue'
 
 const uiStore = useUIStore()
 
@@ -49,9 +52,9 @@ const navItems: NavItem[] = [
   { id: 'prompt', label: '提示', icon: markRaw(ChatDotRound), component: undefined },
   { id: 'sceneGraph', label: '场景树', icon: markRaw(Grid), component: markRaw(SceneGraphPanel) },
   { id: 'export', label: '导出', icon: markRaw(Download), component: markRaw(ExportPanel) },
-  { id: 'assets', label: '资产库', icon: markRaw(FolderOpened), component: undefined },
-  { id: 'history', label: '历史', icon: markRaw(Clock), component: undefined },
-  { id: 'timeline', label: '动画', icon: markRaw(VideoPlay), component: undefined },
+  { id: 'assets', label: '资产库', icon: markRaw(FolderOpened), component: markRaw(AssetLibraryPanel) },
+  { id: 'history', label: '历史', icon: markRaw(Clock), component: markRaw(HistoryPanel) },
+  { id: 'timeline', label: '动画', icon: markRaw(VideoPlay), component: markRaw(TimelinePanel) },
 ]
 
 const activePanelId = computed(() => uiStore.activePanel)

@@ -57,14 +57,26 @@
 ### 4.1 提示面板 (PromptPanel) — 已存在，待确认
 - 输入框 + 预设模板 + 增强/生成状态展示
 
-### 4.2 资产库面板 — 未实现
-- 预制模型库，拖拽添加到场景
+### 4.2 资产库面板 ✅
+- 8 种预设工业模板（储罐、管道、平台、厂房、冷却塔、火炬塔、换热器、泵）
+- 按类别分组展示（储罐类、管道类、建筑结构类、设备类）
+- 点击"添加"按钮添加到场景，随机位置，ElMessage 提示成功
+- 文件: `src/components/panels/AssetLibraryPanel.vue`
 
-### 4.3 历史面板 — 未实现
-- 历史生成的场景记录，可回溯加载
+### 4.3 历史面板 ✅
+- 生成历史自动保存 DSL，最多 50 条，可回溯加载
+- 通过 ElMessageBox.confirm 确认后恢复历史场景
+- 旧数据（无 DSL）显示为灰色不可点击
+- 支持清除全部历史
+- 文件: `src/components/panels/HistoryPanel.vue`
+- Store: `prompt.store.ts` 扩展 `HistoryItem` 类型，`addToHistory` 接受可选 dsl 参数
 
-### 4.4 动画/时间轴面板 — 未实现
-- 相机动画、物体动画的时间轴编辑
+### 4.4 动画/时间轴面板 ✅
+- 相机动画: orbit（轨道环绕）、flythrough（航点飞行）、static（静态）
+- 物体动画: rotate、translate、scale、pulse
+- 播放/暂停/停止控制、进度条、动画列表展示
+- 动画运行时: `src/three/animations/CameraAnimator.ts` + `ObjectAnimator.ts`
+- 文件: `src/components/panels/TimelinePanel.vue`
 
 ---
 

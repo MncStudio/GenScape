@@ -43,7 +43,7 @@ export function useAI() {
       )
 
       loadDSL(dsl)
-      promptStore.addToHistory(userPrompt, promptStore.enhancedPrompt)
+      promptStore.addToHistory(userPrompt, promptStore.enhancedPrompt, dsl)
       return dsl
     } catch (err) {
       sceneStore.setStatus('error')

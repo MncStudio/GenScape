@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppHeader: typeof import('./components/layout/AppHeader.vue')['default']
     AppSidebar: typeof import('./components/layout/AppSidebar.vue')['default']
+    AssetLibraryPanel: typeof import('./components/panels/AssetLibraryPanel.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElColorPicker: typeof import('element-plus/es')['ElColorPicker']
     ElForm: typeof import('element-plus/es')['ElForm']
@@ -20,6 +21,7 @@ declare module 'vue' {
     ElSlider: typeof import('element-plus/es')['ElSlider']
     ElTag: typeof import('element-plus/es')['ElTag']
     ExportPanel: typeof import('./components/panels/ExportPanel.vue')['default']
+    HistoryPanel: typeof import('./components/panels/HistoryPanel.vue')['default']
     LoadingOverlay: typeof import('./components/scene/LoadingOverlay.vue')['default']
     PromptPanel: typeof import('./components/panels/PromptPanel.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -27,5 +29,6 @@ declare module 'vue' {
     SceneGraphPanel: typeof import('./components/panels/SceneGraphPanel.vue')['default']
     SceneViewport: typeof import('./components/scene/SceneViewport.vue')['default']
     StatusBar: typeof import('./components/layout/StatusBar.vue')['default']
+    TimelinePanel: typeof import('./components/panels/TimelinePanel.vue')['default']
   }
 }

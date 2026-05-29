@@ -1,9 +1,17 @@
 import { defineStore } from 'pinia'
+import type { SceneDSL } from '@/types/scene-dsl'
+
+export interface HistoryItem {
+  prompt: string
+  enhanced: string
+  timestamp: string
+  dsl?: SceneDSL
+}
 
 export const usePromptStore = defineStore('prompt', () => {
   const currentPrompt = ref('')
   const enhancedPrompt = ref('')
-  const history = ref<Array<{ prompt: string; enhanced: string; timestamp: string }>>([])
+  const history = ref<HistoryItem[]>([])
   const isEnhancing = ref(false)
   const isGenerating = ref(false)
 
@@ -23,16 +31,21 @@ export const usePromptStore = defineStore('prompt', () => {
     enhancedPrompt.value = p
   }
 
-  function addToHistory(prompt: string, enhanced: string) {
+  function addToHistory(prompt: string, enhanced: string, dsl?: SceneDSL) {
     history.value.unshift({
       prompt,
       enhanced,
       timestamp: new Date().toISOString(),
+      dsl,
     })
-    // 保留最近 20 条
-    if (history.value.length > 20) {
+    // 保留最近 50 条
+    if (history.value.length > 50) {
       history.value.pop()
     }
+  }
+
+  function clearHistory() {
+    history.value = []
   }
 
   function setEnhancing(v: boolean) {
@@ -52,6 +65,6 @@ export const usePromptStore = defineStore('prompt', () => {
 
   return {
     currentPrompt, enhancedPrompt, history, isEnhancing, isGenerating, presetPrompts,
-    setPrompt, setEnhancedPrompt, addToHistory, setEnhancing, setGenerating, reset,
+    setPrompt, setEnhancedPrompt, addToHistory, clearHistory, setEnhancing, setGenerating, reset,
   }
 })
